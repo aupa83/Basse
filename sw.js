@@ -1,5 +1,5 @@
 /* Garde l'application disponible hors connexion. Changer VERSION à chaque mise à jour. */
-var VERSION = 'outils-basse-v9';
+var VERSION = 'outils-basse-v10';
 var SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
   'firebase/firebase-app-compat.js', 'firebase/firebase-auth-compat.js', 'firebase/firebase-firestore-compat.js'];
 self.addEventListener('install', function(e){

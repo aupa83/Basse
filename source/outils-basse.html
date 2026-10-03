@@ -528,6 +528,7 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
         <div class="field" id="dswing-field">
           <label for="dswing">Swing <output id="dswing-out">normal</output></label>
           <input id="dswing" type="range" min="50" max="75" step="1" value="50">
+          <p class="legend" id="dswing-help" style="font-size:.78rem;margin-top:4px"></p>
         </div>
         <div class="field">
           <label for="drum-vol">Volume batterie <output id="drum-vol-out">80 %</output></label>
@@ -643,7 +644,7 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
         <p class="legend">Des clics en rose marquent les temps avant que le rythme démarre. La grille et le drone partent après le décompte.</p>
       </div>
 
-      <div class="train" id="tr-box">
+      <div class="train" id="tr-box" hidden>
         <button id="tr-on" class="switch" type="button" role="switch" aria-checked="false"><i></i><span>Tempo progressif<small>Accélère tout seul pendant la lecture</small></span></button>
         <div class="steppers">
           <div class="stepper"><span id="l-trs">Ajouter</span><div><button type="button" data-k="trStep" data-d="-1" aria-label="Moins de BPM par palier">−</button><output id="o-trStep" aria-labelledby="l-trs"></output><button type="button" data-k="trStep" data-d="1" aria-label="Plus de BPM par palier">+</button></div></div>
@@ -1100,7 +1101,7 @@ function sanitize(o){
   var tr = o.train;
   if(tr && typeof tr === 'object'){
     if([0,1,2].indexOf(tr.countIn) >= 0) s.train.countIn = tr.countIn;
-    s.train.trOn = tr.trOn === true; s.train.muOn = tr.muOn === true;
+    s.train.trOn = false; s.train.muOn = tr.muOn === true;   /* le tempo progressif n'est plus proposé */
     TRAIN_LIMITS.forEach(function(L){ if(typeof tr[L.k] === 'number') s.train[L.k] = clamp(Math.round(tr[L.k]), L.min, L.max); });
   }
   return s;
@@ -1468,6 +1469,14 @@ function makeTicker(fn, ms){
 }
 
 /* Construit les pas d'une mesure. Chaque pas : longueur en unités de tempo (len), décalage de swing (sw, fraction du pas). */
+/* Swing de la batterie : il décale les doubles croches à contretemps si le rythme en joue,
+   sinon les croches à contretemps (rock, disco… n'ont que des croches : décaler les doubles ne s'entendrait pas). */
+function drumSwingUnit(){
+  var st = styleOf();
+  if(st.spb !== 4) return 0;
+  var odd = TRACKS.some(function(t){ var a = S.drums.pat[t.id] || []; for(var i = 1; i < a.length; i += 2) if(a[i]) return true; return false; });
+  return odd ? 1 : 2;
+}
 function buildBar(kind){
   var steps = [];
   if(kind === 'count'){
@@ -1487,9 +1496,9 @@ function buildBar(kind){
       }
     });
   } else {
-    var st2 = styleOf(), sd = 1 / st2.spb, nb2 = st2.steps / st2.spb;
+    var st2 = styleOf(), sd = 1 / st2.spb, nb2 = st2.steps / st2.spb, su = drumSwingUnit(), amt = (S.drums.swing - 50) / 50;
     for(var k = 0; k < st2.steps; k++){
-      steps.push({len:sd, sw:(st2.spb === 4 && k % 2 === 1) ? (S.drums.swing - 50) / 50 : 0,
+      steps.push({len:sd, sw:su === 1 && k % 2 === 1 ? amt : su === 2 && k % 4 === 2 ? 2 * amt : 0,
         s:k, beat:Math.floor(k / st2.spb), beatStart:k % st2.spb === 0, beatLen:1, off:Math.floor(k / st2.spb), barLen:nb2});
     }
   }
@@ -2104,6 +2113,8 @@ function renderDSwing(){
   $('#dswing').disabled = !on;
   $('#dswing').value = S.drums.swing;
   $('#dswing-out').textContent = !on ? 'ternaire' : (S.drums.swing <= 50 ? 'normal' : S.drums.swing + ' %');
+  $('#dswing-help').textContent = !on ? 'Ce rythme est déjà ternaire : chaque temps est coupé en trois.'
+    : 'Retarde les ' + (drumSwingUnit() === 1 ? 'doubles croches' : 'croches') + ' à contretemps pour un groove plus balancé. 50 % = égal, 67 % = ternaire.';
 }
 function renderSeq(){
   var st = styleOf(), n = st.steps, spb = st.spb, cols = n;
@@ -2568,6 +2579,7 @@ $('#seq').addEventListener('click', function(e){
   if(cell){
     var t = cell.dataset.t, s = +cell.dataset.s, nv = CYCLE[S.drums.pat[t][s]];
     S.drums.pat[t][s] = nv; cell.dataset.v = nv;
+    if(s % 2 === 1) renderDSwing();
     if(nv && !R.playing && initAudio()){
       var tr = TRACKS.filter(function(x){ return x.id === t; })[0];
       voices[t](ctx.currentTime + .01, VEL[nv] * tr.gain);
