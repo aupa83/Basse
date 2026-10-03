@@ -1,7 +1,7 @@
 {
   "name": "Outils basse",
   "short_name": "Outils basse",
-  "description": "Métronome, boîte à rythmes, drone et grille d'accords pour bassistes.",
+  "description": "Outils basse, par aupa : métronome, boîte à rythmes, drone, ligne de basse et grille d'accords pour bassistes.",
   "lang": "fr",
   "start_url": "./",
   "scope": "./",

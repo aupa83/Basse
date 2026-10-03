@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Outils basse</title>
+<meta name="author" content="aupa">
+<meta name="description" content="Outils basse, par aupa : métronome, boîte à rythmes, drone, ligne de basse et grille d'accords pour bassistes.">
 <script>try{var th=localStorage.getItem('outils-basse.theme');if(th==='light'||th==='dark')document.documentElement.setAttribute('data-theme',th);}catch(e){}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -42,6 +44,7 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .kicker{margin:0;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 h1{margin:2px 0 0;font-size:clamp(2rem,7vw,3rem);line-height:1;font-weight:800;letter-spacing:-.02em}
 h1 span{color:var(--accent)}
+h1 .by{font-size:.85rem;font-weight:600;letter-spacing:.02em;color:var(--muted);white-space:nowrap}
 #preset-line{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
 #preset-line b{color:var(--fg);font-weight:600}
 .icon-btn{flex:none;width:2.9rem;height:2.9rem;display:grid;place-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px}
@@ -91,6 +94,16 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
 .bar-prog i{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:var(--fg);opacity:.55;z-index:1}
 .pos{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-family:var(--font-mono);font-size:.85rem;color:var(--muted)}
 .pos b{color:var(--fg);font-weight:500;font-size:1.05rem}
+.bass-live{display:flex;align-items:center;gap:12px;padding:8px 12px;border:1px solid var(--warm);border-radius:10px;transition:opacity .2s}
+.bass-live.rest{opacity:.4}
+.bl-lab{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+#bl-note{font-weight:800;font-size:1.7rem;line-height:1;min-width:3.2ch;color:var(--warm)}
+#bl-note.hit{animation:blhit .18s ease-out}
+@keyframes blhit{from{transform:scale(1.18)}to{transform:none}}
+.bl-txt{display:flex;flex-direction:column;font-size:.85rem;line-height:1.25}
+#bl-role{color:var(--fg);font-weight:600}
+#bl-chord{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){#bl-note.hit{animation:none}}
 #run-info{margin:0;min-height:1.3em;font-size:.9rem;color:var(--fg);text-align:center}
 #run-info.count{color:var(--strong);font-weight:700}
 #run-info.silent{color:var(--muted);font-weight:600}
@@ -207,6 +220,11 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
 .chord-name{font-weight:800;font-size:clamp(2rem,8vw,2.8rem);line-height:1;letter-spacing:-.02em}
 .pills{display:flex;flex-wrap:wrap;gap:6px}
 .pill{font-family:var(--font-mono);font-size:.85rem;padding:2px 9px;border:1px solid var(--warm);border-radius:999px}
+#bass-line{display:flex;flex-direction:column;gap:6px}
+.bpills .pill{color:var(--fg);transition:background .08s,color .08s}
+.bpills .pill.pass{border-style:dashed}
+.bpills .pill.on{background:var(--warm);color:var(--warm-ink)}
+.bl-extra{font-size:.82rem}
 .readout p{margin:0;font-size:.88rem;color:var(--muted)}
 .readout p b{color:var(--fg);font-weight:600}
 .tune{display:flex;align-items:center;gap:6px}
@@ -282,6 +300,10 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
 #save-msg{margin:0;font-size:.85rem;min-height:1.2em}
 #save-msg.err{color:var(--strong)}
 .foot{margin:18px 0 0;font-size:.82rem;color:var(--muted)}
+.sign{display:flex;align-items:center;justify-content:center;gap:10px;margin:22px 0 4px;padding-top:16px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.sign b{color:var(--fg);font-weight:700;letter-spacing:.02em}
+.sign small{display:block;font-family:var(--font-mono);font-size:.7rem;margin-top:2px}
+.sign-mark{display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:1.05rem;font-style:italic}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -290,7 +312,7 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
   <header class="top">
     <div>
       <p class="kicker">Entraînement pour bassistes</p>
-      <h1>Outils <span>basse</span></h1>
+      <h1>Outils <span>basse</span> <small class="by">par aupa</small></h1>
       <p id="preset-line"></p>
     </div>
     <button id="gear" class="icon-btn" type="button" aria-label="Ouvrir les réglages" aria-haspopup="dialog" aria-controls="drawer" aria-expanded="false">
@@ -329,6 +351,9 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
     <div class="dots" id="dots" aria-hidden="true"></div>
     <div class="bar-prog" id="bar-box" aria-hidden="true"><b id="bar-prog"></b></div>
     <div class="pos" aria-hidden="true"><span id="pos-bar">Mesure <b>–</b></span><span id="pos-grid"></span></div>
+    <div class="bass-live" id="bass-live" aria-hidden="true" hidden>
+      <span class="bl-lab">Basse</span><b id="bl-note">–</b><span class="bl-txt"><span id="bl-role"></span><span id="bl-chord"></span></span>
+    </div>
     <p id="run-info" role="status" aria-live="polite"></p>
   </section>
 
@@ -550,6 +575,10 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
   </div>
 
   <p class="foot">Espace : lecture et arrêt. T : tap tempo. Son et réglages enregistrés : roue crantée en haut à droite. Pas de son ? Touchez « Tester le son » dans la roue crantée. Sur iPhone, désactivez le mode silencieux (interrupteur sur le côté) et montez le volume.</p>
+  <footer class="sign">
+    <span class="sign-mark" aria-hidden="true">a</span>
+    <span>Outils basse, conçu par <b>aupa</b><small>© 2026 aupa</small></span>
+  </footer>
 </div>
 
 <!-- PANNEAU RÉGLAGES -->
@@ -591,6 +620,12 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
         <button id="preset-save" class="save-btn" type="button" disabled>Enregistrer</button>
         <p id="save-msg" role="status" aria-live="polite"></p>
       </div>
+    </section>
+
+    <section class="panel" aria-label="À propos">
+      <h2>À propos</h2>
+      <p class="legend"><b>Outils basse</b>, conçu par <b>aupa</b> : métronome, boîte à rythmes, drone, ligne de basse et grille d'accords pour travailler la basse. Fonctionne sans connexion une fois installé.</p>
+      <p class="legend" style="font-size:.8rem">© 2026 aupa</p>
     </section>
   </div>
 </aside>
@@ -1174,10 +1209,12 @@ function bassSeq(chordId, pat){
 function bassBeat(t, bd, st, gb){
   var c = snd, base = 12 * (S.drone.oct + 1) + c.root;
   var idx = gb ? gb.beatIn : st.beat, len = gb ? gb.slotBeats : beatsInBar();
-  var pat = S.drone.bassPat, seq = bassSeq(c.chord, pat), note = base + seq[idx % seq.length];
+  var pat = S.drone.bassPat, seq = bassSeq(c.chord, pat), si = idx % seq.length, note = base + seq[si];
+  var ev = function(at, midi, i, end){ R.bassQ.push({t:at, end:end, midi:midi, rel:i < 0 ? -1 : seq[i], i:i, c:c}); };
   if(pat === 'octave'){
     bassVoice(t, base, bd * .42, .9);
     bassVoice(t + bd / 2, base + 12, bd * .38, .75);
+    ev(t, base, 0, t + bd / 2); ev(t + bd / 2, base + 12, 1, t + bd);
     return;
   }
   if(pat === 'walk'){
@@ -1187,9 +1224,12 @@ function bassBeat(t, bd, st, gb){
       var target = 12 * (S.drone.oct + 1) + nr;
       [target - 12, target + 12].forEach(function(x){ if(Math.abs(x - prev) < Math.abs(target - prev)) target = x; });
       note = prev < target ? target - 1 : target + 1;
+      if(note === prev) note = prev < target ? target + 1 : target - 1;   /* jamais deux fois la même note */
+      si = -1;
     }
   }
   bassVoice(t, note, bd * (pat === 'walk' ? .9 : .8), .9);
+  ev(t, note, si, t + bd);
 }
 
 /* =====================================================================
@@ -1198,7 +1238,7 @@ function bassBeat(t, bd, st, gb){
    ===================================================================== */
 var LOOK = .12, LOOK_HIDDEN = .4, TICK = 25;
 var R = {playing:false, bar:0, steps:[], idx:0, nextTime:0, queue:[], beatCount:0, curBeat:null, curStep:null,
-  startBpm:100, ticker:null, wake:null, barInfo:null, mode:'metro'};
+  startBpm:100, ticker:null, wake:null, barInfo:null, mode:'metro', bassQ:[], bassCur:null};
 
 function makeTicker(fn, ms){
   try{
@@ -1298,6 +1338,7 @@ function scheduleNext(){
   }
   R.queue.push({t:t, st:st, info:info, barStart:R.idx === 0, beatDur:beatDur, beatCount:R.beatCount, gb:gb});
   if(R.queue.length > 512) R.queue.splice(0, 256);
+  if(R.bassQ.length > 128) R.bassQ.splice(0, 64);
   R.nextTime += dur;
   R.idx++;
   if(R.idx < R.steps.length && R.steps[R.idx].beatStart) R.beatCount++;
@@ -1310,7 +1351,7 @@ function tick(){
 }
 function start(){
   if(!initAudio()) return;
-  R.playing = true; R.mode = S.mode; R.queue = []; R.curBeat = null; R.curStep = null; R.beatCount = 0;
+  R.playing = true; R.mode = S.mode; R.queue = []; R.bassQ = []; R.bassCur = null; R.curBeat = null; R.curStep = null; R.beatCount = 0;
   R.bar = -S.train.countIn - 1; R.steps = []; R.idx = 0; R.startBpm = S.bpm;
   R.nextTime = ctx.currentTime + .1;
   G.pos = -1; droneByGrid = false;
@@ -1325,7 +1366,7 @@ function stop(){
   if(!R.playing) return;
   R.playing = false;
   if(R.ticker){ R.ticker.stop(); R.ticker = null; }
-  R.queue = []; R.curBeat = null;
+  R.queue = []; R.curBeat = null; R.bassQ = []; showBass(null);
   try{ if(R.wake){ R.wake.release(); R.wake = null; } }catch(e){}
   markCells(null); renderDots(); $('#bar-prog').style.transform = 'scaleX(0)';
   setPos('Mesure', null); $('#pos-grid').textContent = '';
@@ -1366,6 +1407,11 @@ function frame(){
     if(last.st.beatStart && !last.st.count) showGrid(last.gb || null);
   }
   if(last){ markCells(last.st); markDot(last.st, last.info); }
+  var bn = null;
+  while(R.bassQ.length && R.bassQ[0].t <= now) bn = R.bassQ.shift();
+  if(bn) showBass(bn);
+  else if(!(UI.droneOn && S.drone.kind === 'bass')){ if(!$('#bass-live').hidden) showBass(null); }
+  else if(R.bassCur && now > R.bassCur.end + .05) showBass(null, true);
   var cb = R.curBeat;
   if(cb){
     var ph = clamp((now - cb.t) / cb.beatDur, 0, 1);
@@ -1968,12 +2014,51 @@ function renderBassLine(){
   var sh = sharpsFor(c), pat = S.drone.bassPat;
   var name = function(o){ return nm(c.root + o, sh) + (o === 12 ? ' aigu' : ''); };
   var seq = bassSeq(c.chord, pat).map(name);
-  el.appendChild(document.createTextNode('La basse joue : '));
-  el.appendChild(mk('b', '', pat === 'octave' ? name(0) + ' puis ' + name(12) + ' sur le contretemps' : seq.join(' · ')));
+  el.appendChild(document.createTextNode('La basse joue :'));
+  var pl = mk('span', 'pills bpills');
+  seq.forEach(function(n, i){ var p = mk('span', 'pill', n); p.dataset.i = i; pl.appendChild(p); });
+  if(pat === 'walk'){ var ps = mk('span', 'pill pass', '?'); ps.dataset.i = -1; ps.title = 'Note de passage'; pl.appendChild(ps); }
+  el.appendChild(pl);
   var extra = '';
-  if(pat === 'walk') extra = ', avec une note de passage sur le dernier temps, qui mène à l\'accord suivant';
-  else if(pat === 'root5' && chordDef(c.chord).iv.length === 1) extra = '. « Note seule » n\'a pas de quinte : la basse prend l\'octave à la place';
-  el.appendChild(document.createTextNode(extra + '.'));
+  if(pat === 'octave') extra = 'La fondamentale sur le temps, l\'octave sur le contretemps';
+  else if(pat === 'walk') extra = 'Le « ? » est la note de passage du dernier temps : elle dépend de l\'accord suivant';
+  else if(pat === 'root5' && chordDef(c.chord).iv.length === 1) extra = '« Note seule » n\'a pas de quinte : la basse prend l\'octave à la place';
+  else if(seq.length > 1) extra = 'Une note par temps, dans cet ordre';
+  if(extra) el.appendChild(mk('span', 'bl-extra', extra + '.'));
+  if(R.bassCur) hiBassPill(R.bassCur);
+}
+/* ---- Note de basse en direct ---- */
+var ROLE = {0:'fondamentale', 3:'tierce mineure', 4:'tierce', 5:'quarte', 6:'quinte diminuée', 7:'quinte', 10:'septième', 11:'septième majeure', 12:'octave'};
+function bassName(e){ return nm(e.midi, sharpsFor(e.c)); }
+/* e : note qui sonne, ou null. rest : garder la dernière note, en grisé (mesure muette, basse coupée). */
+function showBass(e, rest){
+  var box = $('#bass-live');
+  if(!e && !rest){
+    R.bassCur = null; box.hidden = true; box.classList.remove('rest');
+    hiBassPill(null); return;
+  }
+  if(rest){ R.bassCur = null; box.classList.add('rest'); hiBassPill(null); return; }
+  R.bassCur = e;
+  box.hidden = false; box.classList.remove('rest');
+  var pass = e.i < 0;
+  $('#bl-note').textContent = bassName(e) + (Math.floor(e.midi / 12) - 1);
+  $('#bl-role').textContent = pass ? 'note de passage' : ROLE[e.rel] || '';
+  $('#bl-chord').textContent = 'sur ' + nm(e.c.root, sharpsFor(e.c)) + chordDef(e.c.chord).sfx;
+  var n = $('#bl-note'); n.classList.remove('hit'); void n.offsetWidth; n.classList.add('hit');
+  hiBassPill(e);
+}
+/* Allume, dans « La basse joue », la note en cours. */
+function hiBassPill(e){
+  var box = $('#bass-line'), ps = box.querySelectorAll('.pill');
+  var same = e && readC && e.c.root === readC.root && e.c.chord === readC.chord;
+  for(var k = 0; k < ps.length; k++){
+    var p = ps[k], i = +p.dataset.i, on = !!same && i === e.i;
+    if(p.classList.contains('pass')){
+      on = !!same && e.i < 0;
+      p.textContent = on ? bassName(e) : '?';
+    }
+    p.classList.toggle('on', on);
+  }
 }
 function renderDroneMisc(){
   renderSeg($('#oct'), [{v:1,label:'1'},{v:2,label:'2'},{v:3,label:'3'}], S.drone.oct);
