@@ -787,7 +787,7 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
       <summary><span class="acc-t"><span class="acc-h" id="compte-lab">Mon compte</span><small id="compte-hint"></small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
       <div class="acc-b">
         <dl class="acct" id="acct-info"></dl>
-        <p class="legend" style="font-size:.82rem">L'application vérifie votre compte à chaque ouverture avec Internet. Sans connexion, elle reste utilisable 7 jours.</p>
+        <p class="legend" id="acct-rule" style="font-size:.82rem">L'application vérifie le compte à chaque ouverture avec Internet. Sans connexion, elle reste utilisable 7 jours.</p>
         <button id="acct-logout" class="ghost" type="button">Se déconnecter</button>
       </div>
     </details>
@@ -3176,7 +3176,10 @@ function renderAccount(){
   var st = el('span', null, [el('span', {cls:'st st-' + info.status, text:ST_LABEL[info.status] || info.status})]);
   if(info.role === 'admin'){ st.appendChild(document.createTextNode(' ')); st.appendChild(el('span', {cls:'st st-admin', text:'Administrateur'})); }
   row('Statut', st);
-  if(info.checkedAt){
+  /* La validité n'est montrée qu'à l'administrateur. */
+  var adm = info.role === 'admin';
+  $('#acct-rule').hidden = !adm;
+  if(adm && info.checkedAt){
     row('Vérifié', fmtWhen(new Date(info.checkedAt)));
     row('Valable jusqu\'au', fmtDate(new Date(info.checkedAt + WEEK)));
   }
