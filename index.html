@@ -301,6 +301,11 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
 .preset .acts .def[aria-pressed="true"]{border-color:var(--warm);color:var(--warm)}
 .preset .acts .del.confirm{background:var(--strong);border-color:var(--strong);color:#fff}
 .save-form{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid var(--line)}
+.contact select,.contact textarea{width:100%;padding:10px 12px;background:var(--raised);border:1px solid var(--line);border-radius:10px;font:inherit;color:inherit}
+.contact select{min-height:3rem}
+.contact textarea{resize:vertical;min-height:6rem}
+.contact .field{display:flex;flex-direction:column;gap:6px}
+.contact a{color:var(--accent)}
 .save-form input[type=text]{min-height:3rem;padding:0 12px;background:var(--raised);border:1px solid var(--line);border-radius:10px}
 .check{display:flex;align-items:center;gap:10px;font-size:.92rem}
 .check input{width:1.25rem;height:1.25rem;accent-color:var(--accent)}
@@ -635,6 +640,33 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
       <h2>À propos</h2>
       <p class="legend"><b>Outils basse</b>, conçu par <b>aupa</b> : métronome, boîte à rythmes, drone, ligne de basse et grille d'accords pour travailler la basse. Fonctionne sans connexion une fois installé.</p>
       <p class="legend" style="font-size:.8rem">© 2026 aupa</p>
+    </section>
+
+    <section class="panel" aria-labelledby="h-contact">
+      <h2 id="h-contact">Contacter l'administrateur</h2>
+      <p class="legend">Une question, un problème ou une idée ? Écrivez ici : votre application de messagerie s'ouvre avec le message prêt à envoyer.</p>
+      <form class="save-form contact" id="contact-form" novalidate>
+        <div class="field">
+          <label for="ct-subject"><b>Objet</b></label>
+          <select id="ct-subject">
+            <option>Question</option>
+            <option>Signaler un problème</option>
+            <option>Suggestion</option>
+            <option>Demande d'accès</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="ct-name"><b>Votre nom</b> <span class="legend">(facultatif)</span></label>
+          <input id="ct-name" type="text" maxlength="60" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="ct-msg"><b>Message</b></label>
+          <textarea id="ct-msg" rows="4" maxlength="2000" placeholder="Décrivez votre demande"></textarea>
+        </div>
+        <button id="ct-send" class="save-btn" type="submit" disabled>Écrire à l'administrateur</button>
+        <p class="legend" style="font-size:.78rem">Le message part vers <a id="ct-mail" href="mailto:adresse-retiree">adresse-retiree</a>. La version de l'application et le type d'appareil sont ajoutés pour aider à répondre.</p>
+      </form>
     </section>
   </div>
 </aside>
@@ -2472,6 +2504,17 @@ $('#theme').addEventListener('click', function(e){
   renderTheme();
 });
 $('#drawer-close').addEventListener('click', closeDrawer);
+/* Contact : ouvre la messagerie avec un message prêt. */
+var ADMIN_MAIL = 'adresse-retiree', APP_VERSION = '2026-10-03';
+$('#ct-msg').addEventListener('input', function(){ $('#ct-send').disabled = !this.value.trim(); });
+$('#contact-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var msg = $('#ct-msg').value.trim(); if(!msg) return;
+  var who = $('#ct-name').value.trim(), subj = 'Outils basse : ' + $('#ct-subject').value;
+  var installed = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
+  var body = msg + '\n\n' + (who ? who + '\n' : '') + '---\nOutils basse, version ' + APP_VERSION + (installed ? ' (installée)' : '') + '\n' + navigator.userAgent;
+  location.href = 'mailto:' + ADMIN_MAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+});
 $('#backdrop').addEventListener('click', closeDrawer);
 $('#test-sound').addEventListener('click', testSound);
 $('#banner-btn').addEventListener('click', testSound);
