@@ -1,6 +1,7 @@
 /* Garde l'application disponible hors connexion. Changer VERSION à chaque mise à jour. */
-var VERSION = 'outils-basse-v7';
-var SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
+var VERSION = 'outils-basse-v8';
+var SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
+  'firebase/firebase-app-compat.js', 'firebase/firebase-auth-compat.js', 'firebase/firebase-firestore-compat.js'];
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(VERSION).then(function(c){ return c.addAll(SHELL); }).then(function(){ return self.skipWaiting(); }));
 });

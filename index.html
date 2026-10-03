@@ -333,6 +333,73 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
 .sign b{color:var(--fg);font-weight:700;letter-spacing:.02em}
 .sign small{display:block;font-family:var(--font-mono);font-size:.7rem;margin-top:2px}
 .sign-mark{display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:1.05rem;font-style:italic}
+/* Accordeur */
+.top-btns{display:flex;gap:8px;flex:none}
+.hicon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tuner-in{max-width:30rem;gap:16px}
+.tn-dial{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 14px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.tn-note b{display:block;font-weight:800;font-size:clamp(3.4rem,18vw,4.6rem);line-height:1;letter-spacing:-.02em;color:var(--muted);transition:color .15s}
+.tn-dial.near .tn-note b{color:var(--warm)}
+.tn-dial.ok .tn-note b{color:var(--accent)}
+.tn-meter{position:relative;width:100%;height:56px}
+.tn-scale{position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:linear-gradient(90deg,var(--strong),var(--warm) 38%,var(--accent) 45%,var(--accent) 55%,var(--warm) 62%,var(--strong))}
+.tn-zero{position:absolute;left:50%;top:6px;bottom:6px;width:2px;margin-left:-1px;background:var(--fg);opacity:.5}
+.tn-needle{position:absolute;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;border-radius:2px;background:var(--fg);transition:left .12s linear,opacity .2s;opacity:.25}
+.tn-dial.live .tn-needle{opacity:1}
+.tn-ends{display:flex;justify-content:space-between;width:100%;font-family:var(--font-mono);font-size:.72rem;color:var(--muted)}
+.tn-advice{margin:0;text-align:center;font-weight:700;font-size:1.05rem;min-height:1.5em}
+.tn-freq{margin:-8px 0 0;text-align:center;font-family:var(--font-mono);font-size:.85rem;color:var(--muted);min-height:1.2em}
+.tn-strings{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px}
+.tn-strings .chip{padding:0 .3rem}
+/* Comptes : écran d'accès, mon compte, administration */
+.gate{position:fixed;inset:0;z-index:39;overflow-y:auto;background:var(--bg);display:flex;justify-content:center;align-items:flex-start;padding:calc(28px + env(safe-area-inset-top,0px)) 16px 32px}
+.gate-card{width:100%;max-width:26rem;display:flex;flex-direction:column;gap:18px;margin:auto 0}
+.gate-brand{margin:2px 0 0}
+.gate-box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;gap:14px}
+.gate-box h2{font-family:var(--font-ui);font-size:1.25rem;font-weight:800;letter-spacing:0;text-transform:none;color:var(--fg)}
+.gate-box p{margin:0}
+.gate form,.acc-form{display:flex;flex-direction:column;gap:12px}
+.gate .field label{color:var(--fg);font-weight:600}
+.gate input,.acc-form input{min-height:3rem;padding:0 12px;background:var(--raised);border:1px solid var(--line);border-radius:10px;font:inherit;color:inherit;width:100%}
+.gate .save-btn,.gate .ghost{width:100%}
+.linkbtn{background:none;border:0;padding:6px 0;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px;align-self:flex-start}
+.gate-links{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px}
+.gate-msg{margin:0;font-size:.88rem;min-height:1.2em}
+.gate-msg.err{color:var(--strong)}
+.gate-msg.ok{color:var(--accent)}
+.spin{width:28px;height:28px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--accent);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.acct{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:.9rem}
+.acct dt{color:var(--muted)}
+.acct dd{margin:0;font-weight:600;min-width:0;overflow-wrap:anywhere}
+.st{display:inline-block;padding:1px 8px;border-radius:999px;font-size:.78rem;font-weight:700;border:1px solid currentColor;white-space:nowrap}
+.st-ok{color:var(--accent)}
+.st-pending{color:var(--warm)}
+.st-blocked{color:var(--strong)}
+.st-admin{color:var(--sub)}
+#gear{position:relative}
+#gear.notif::after{content:"";position:absolute;top:6px;right:6px;width:9px;height:9px;border-radius:50%;background:var(--strong);border:2px solid var(--panel)}
+.admin{position:fixed;inset:0;z-index:45;display:flex;flex-direction:column;background:var(--bg)}
+.admin-b{flex:1;overflow-y:auto;padding:16px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+.admin-in{max-width:46rem;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.admin .drawer-h{max-width:none}
+.adm-filter{display:flex;flex-wrap:wrap;gap:6px}
+.adm-filter .chip{min-height:2.3rem;font-size:.86rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.card.unread{border-color:var(--accent)}
+.card-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.card-h b{font-size:1rem;overflow-wrap:anywhere}
+.card p{margin:0}
+.card .meta{font-size:.8rem;color:var(--muted);overflow-wrap:anywhere}
+.card .txt{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.92rem}
+.card .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.card .acts button{min-height:2.5rem;padding:0 .9rem;border-radius:9px;border:1px solid var(--line);background:transparent;font-weight:700;font-size:.88rem}
+.card .acts .go{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.card .acts .no{border-color:var(--strong);color:var(--strong)}
+.card .acts .no.confirm{background:var(--strong);color:#fff}
+.adm-empty{text-align:center;padding:24px 8px}
+@media (min-width:700px){.adm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+@media (max-width:699px){.adm-grid{display:flex;flex-direction:column;gap:10px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -344,9 +411,12 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
       <h1>Outils <span>basse</span> <small class="by">par aupa</small></h1>
       <p id="preset-line"></p>
     </div>
+    <div class="top-btns">
+    <button id="tuner-btn" class="icon-btn" type="button" aria-label="Ouvrir l'accordeur" aria-haspopup="dialog" aria-controls="tuner" title="Accordeur"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v7a3 3 0 0 0 6 0V3M12 13v8M9.5 21h5"/></svg></button>
     <button id="gear" class="icon-btn" type="button" aria-label="Ouvrir les réglages" aria-haspopup="dialog" aria-controls="drawer" aria-expanded="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </button>
+    </div>
   </header>
 
   <div class="banner" id="audio-banner" role="status" hidden>
@@ -610,6 +680,70 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
   </footer>
 </div>
 
+<!-- ÉCRAN D'ACCÈS (comptes) -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" hidden>
+  <div class="gate-card">
+    <div>
+      <p class="kicker">Entraînement pour bassistes</p>
+      <h1 class="gate-brand">Outils <span>basse</span> <small class="by">par aupa</small></h1>
+    </div>
+    <div class="gate-box" id="gate-view"></div>
+  </div>
+</div>
+
+<!-- ACCORDEUR -->
+<div class="admin" id="tuner" role="dialog" aria-modal="true" aria-labelledby="tuner-title" hidden>
+  <div class="drawer-h">
+    <h2 id="tuner-title"><svg class="hicon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v7a3 3 0 0 0 6 0V3M12 13v8M9.5 21h5"/></svg>Accordeur</h2>
+    <button id="tuner-close" class="icon-btn" type="button" aria-label="Fermer l'accordeur"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <div class="admin-b">
+    <div class="admin-in tuner-in">
+      <div class="seg" id="tn-strings-n" role="group" aria-label="Nombre de cordes">
+        <button type="button" data-v="4">Basse 4 cordes</button>
+        <button type="button" data-v="5">5 cordes</button>
+      </div>
+      <div class="tn-dial" aria-hidden="true">
+        <div class="tn-note"><b id="tn-note">–</b></div>
+        <div class="tn-meter" id="tn-meter">
+          <div class="tn-scale"></div>
+          <i class="tn-zero"></i>
+          <i class="tn-needle" id="tn-needle"></i>
+        </div>
+        <div class="tn-ends"><span>−50</span><span>bas</span><span>0</span><span>haut</span><span>+50</span></div>
+      </div>
+      <p class="tn-advice" id="tn-advice" role="status" aria-live="polite">Activez le micro, puis jouez une corde à vide.</p>
+      <p class="tn-freq" id="tn-freq"></p>
+      <div>
+        <h3 style="margin:0 0 6px">Corde à accorder</h3>
+        <div class="chips tn-strings" id="tn-strings" role="group" aria-label="Corde à accorder"></div>
+      </div>
+      <button id="tn-mic" class="play" type="button">Activer le micro</button>
+      <button id="tn-ref" class="ghost" type="button">Écouter la note de la corde</button>
+      <p class="legend" id="tn-help">Le micro sert seulement à mesurer la note : rien n'est enregistré ni envoyé.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE ADMINISTRATION -->
+<div class="admin" id="admin" role="dialog" aria-modal="true" aria-labelledby="admin-title" hidden>
+  <div class="drawer-h">
+    <h2 id="admin-title">Administration</h2>
+    <button id="admin-close" class="icon-btn" type="button" aria-label="Fermer l'administration"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <div class="admin-b">
+    <div class="admin-in">
+      <div class="seg" id="admin-tabs" role="tablist" aria-label="Rubriques d'administration">
+        <button type="button" role="tab" data-v="users">Comptes</button>
+        <button type="button" role="tab" data-v="msgs">Messages</button>
+      </div>
+      <div class="adm-filter" id="admin-filter" role="group" aria-label="Filtrer les comptes"></div>
+      <p class="gate-msg" id="admin-msg" role="status" aria-live="polite"></p>
+      <div class="adm-grid" id="admin-list"></div>
+    </div>
+  </div>
+</div>
+
 <!-- PANNEAU RÉGLAGES -->
 <div class="backdrop" id="backdrop" hidden></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
@@ -657,6 +791,23 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
       </div>
     </details>
 
+    <details class="panel acc" name="reglages" id="acc-compte" hidden>
+      <summary><span class="acc-t"><span class="acc-h" id="compte-lab">Mon compte</span><small id="compte-hint"></small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
+      <div class="acc-b">
+        <dl class="acct" id="acct-info"></dl>
+        <p class="legend" style="font-size:.82rem">L'application vérifie votre compte à chaque ouverture avec Internet. Sans connexion, elle reste utilisable 7 jours.</p>
+        <button id="acct-logout" class="ghost" type="button">Se déconnecter</button>
+      </div>
+    </details>
+
+    <details class="panel acc" name="reglages" id="acc-admin" hidden>
+      <summary><span class="acc-t"><span class="acc-h" id="admin-lab">Administration</span><small id="admin-hint"></small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
+      <div class="acc-b">
+        <p class="legend">Voir tous les comptes, valider les nouveaux, bloquer ou débloquer un accès, et lire les messages reçus.</p>
+        <button id="admin-open" class="save-btn" type="button">Ouvrir la page Admin</button>
+      </div>
+    </details>
+
     <details class="panel acc" name="reglages" id="acc-contact">
       <summary><span class="acc-t"><span class="acc-h" id="contact-lab">Contact</span><small>Écrire à l'administrateur</small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
       <div class="acc-b">
@@ -672,11 +823,12 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
             <option>Autre</option>
           </select>
         </div>
-        <div class="field">
+        <p class="legend" id="ct-who" hidden></p>
+        <div class="field ct-id">
           <label for="ct-name"><b>Votre nom</b></label>
           <input id="ct-name" type="text" maxlength="60" autocomplete="name">
         </div>
-        <div class="field">
+        <div class="field ct-id">
           <label for="ct-email"><b>Votre e-mail</b> <span class="legend" style="font-size:.8rem">pour vous répondre</span></label>
           <input id="ct-email" type="email" maxlength="120" autocomplete="email" inputmode="email">
         </div>
@@ -2540,10 +2692,18 @@ function ctStatus(txt, cls){ var el = $('#ct-status'); el.textContent = txt; el.
 $('#ct-msg').addEventListener('input', function(){ ctStatus(''); $('#ct-send').disabled = !this.value.trim(); });
 $('#contact-form').addEventListener('submit', function(e){
   e.preventDefault();
-  var mail = $('#ct-email').value.trim();
-  if(!$('#ct-msg').value.trim()) return;
-  if(mail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){ ctStatus('Cette adresse e-mail ne semble pas valide.', 'err'); $('#ct-email').focus(); return; }
-  ctStatus('L\'envoi des messages n\'est pas encore activé. Votre message reste ici, réessayez bientôt.', 'err');
+  var text = $('#ct-msg').value.trim();
+  if(!text) return;
+  if(!FBC){ ctStatus('L\'envoi des messages n\'est pas encore activé. Votre message reste ici, réessayez bientôt.', 'err'); return; }
+  if(!A.user || !A.db){ ctStatus('Connectez-vous pour envoyer un message.', 'err'); return; }
+  if(navigator.onLine === false){ ctStatus('Pas de connexion : votre message reste ici, réessayez une fois en ligne.', 'err'); return; }
+  var b = $('#ct-send'); b.disabled = true; ctStatus('Envoi…');
+  var done = false, t = setTimeout(function(){ if(!done) ctStatus('L\'envoi prend du temps, vérifiez la connexion.', 'err'); }, 8000);
+  sendMessage({subject:$('#ct-subject').value, text:text}).then(function(){
+    done = true; clearTimeout(t); $('#ct-msg').value = ''; ctStatus('Merci, votre message a bien été envoyé.', 'ok');
+  }, function(){
+    done = true; clearTimeout(t); b.disabled = false; ctStatus('L\'envoi a échoué. Réessayez dans un instant.', 'err');
+  });
 });
 /* Réglages : une seule rubrique ouverte à la fois (pour les navigateurs qui ignorent name sur details). */
 [].forEach.call(document.querySelectorAll('.acc'), function(d){
@@ -2604,6 +2764,9 @@ $('#preset-save').addEventListener('click', function(){
 
 /* Clavier */
 document.addEventListener('keydown', function(e){
+  if(!$('#tuner').hidden && !drawerOpen){ if(e.key === 'Escape'){ e.preventDefault(); tunerClose(); } return; }
+  if(!$('#admin').hidden && !drawerOpen){ if(e.key === 'Escape'){ e.preventDefault(); adminClose(); } return; }
+  if(!$('#gate').hidden && !drawerOpen) return;
   if(drawerOpen){
     if(e.key === 'Escape'){ e.preventDefault(); closeDrawer(); return; }
     if(e.key === 'Tab'){
@@ -2621,6 +2784,510 @@ document.addEventListener('keydown', function(e){
   if(e.code === 'Space' || e.key === ' '){ e.preventDefault(); R.playing ? stop() : start(); }
   else if(e.key === 't' || e.key === 'T'){ tap(); }
 });
+
+/* =====================================================================
+   Accordeur : micro, détection de la hauteur (YIN), aiguille en cents
+   ===================================================================== */
+var TN = {on:false, stream:null, src:null, an:null, buf:null, raf:0, last:0, hist:[], cents:0, strings:4, target:'auto', hold:0};
+var BASS_STR = [{n:'Si', m:23, five:true}, {n:'Mi', m:28}, {n:'La', m:33}, {n:'Ré', m:38}, {n:'Sol', m:43}];
+var NOTE_FR = ['Do', 'Do♯', 'Ré', 'Mi♭', 'Mi', 'Fa', 'Fa♯', 'Sol', 'La♭', 'La', 'Si♭', 'Si'];
+/* Hauteur d'un signal par la méthode YIN. Renvoie la fréquence en Hz, ou 0 si rien de net. */
+function detectPitch(x, sr){
+  var n = x.length, rms = 0, i, t;
+  for(i = 0; i < n; i++) rms += x[i] * x[i];
+  if(Math.sqrt(rms / n) < .008) return 0;
+  /* On divise la fréquence d'échantillonnage par 2 : une basse n'a pas besoin de plus, et c'est 4 fois plus rapide. */
+  var h = n >> 1, y = new Float32Array(h);
+  for(i = 0; i < h; i++) y[i] = (x[2 * i] + x[2 * i + 1]) * .5;
+  sr /= 2;
+  var tmin = Math.max(2, Math.floor(sr / 420)), tmax = Math.min(Math.floor(sr / 26), h >> 1), W = h - tmax;
+  var d = new Float32Array(tmax + 2), sum = 0, best = -1;
+  for(t = 1; t <= tmax + 1; t++){
+    var s2 = 0;
+    for(i = 0; i < W; i++){ var df = y[i] - y[i + t]; s2 += df * df; }
+    sum += s2; d[t] = sum ? s2 * t / sum : 1;
+  }
+  for(t = tmin; t <= tmax; t++){
+    if(d[t] < .15){ while(t + 1 <= tmax && d[t + 1] < d[t]) t++; best = t; break; }
+  }
+  if(best < 0) return 0;
+  var a = d[best - 1], b = d[best], c = d[best + 1], den = a + c - 2 * b;
+  var tau = best + (den ? (a - c) / (2 * den) : 0);
+  return sr / tau;
+}
+function tnMidi(f){ return 69 + 12 * Math.log(f / S.drone.tuning) / Math.LN2; }
+function tnStrings(){ return BASS_STR.filter(function(s){ return TN.strings === 5 || !s.five; }); }
+function renderTunerStrings(){
+  [].forEach.call($('#tn-strings-n').children, function(b){ b.setAttribute('aria-pressed', String(+b.dataset.v === TN.strings)); });
+  var box = $('#tn-strings'); box.textContent = '';
+  [{n:'Auto', id:'auto'}].concat(tnStrings().map(function(s){ return {n:s.n, id:String(s.m)}; })).forEach(function(s){
+    var b = mk('button', 'chip', s.n); b.type = 'button'; b.dataset.v = s.id;
+    b.setAttribute('aria-pressed', String(s.id === TN.target)); box.appendChild(b);
+  });
+  $('#tn-ref').disabled = TN.target === 'auto';
+  $('#tn-ref').textContent = TN.target === 'auto' ? 'Choisissez une corde pour l\'écouter' : 'Écouter la note de la corde';
+}
+function tnShow(f){
+  var dial = $('.tn-dial'), adv = $('#tn-advice');
+  if(!f){
+    if(Date.now() - TN.hold > 1200){
+      dial.classList.remove('live', 'ok', 'near');
+      if(TN.on) adv.textContent = 'Jouez une corde à vide, laissez-la sonner.';
+      $('#tn-freq').textContent = '';
+    }
+    return;
+  }
+  TN.hold = Date.now();
+  var m = tnMidi(f), target, name;
+  if(TN.target !== 'auto'){
+    target = +TN.target;
+    while(m - target > 6) m -= 12;   /* le micro du téléphone entend parfois l'octave au-dessus */
+    while(target - m > 6) m += 12;
+  } else {
+    target = Math.round(m);
+    var near = tnStrings().filter(function(s){ return Math.abs(m - s.m) < .5 || Math.abs(m - s.m - 12) < .5; })[0];
+    if(near) target = Math.abs(m - near.m) < .5 ? near.m : near.m + 12;
+  }
+  var cents = (m - target) * 100;
+  TN.cents = TN.cents * .6 + Math.max(-50, Math.min(50, cents)) * .4;
+  name = NOTE_FR[((target % 12) + 12) % 12];
+  $('#tn-note').textContent = name;
+  $('#tn-needle').style.left = (50 + TN.cents) + '%';
+  var ok = Math.abs(TN.cents) < 5, close = Math.abs(TN.cents) < 15;
+  dial.classList.add('live'); dial.classList.toggle('ok', ok); dial.classList.toggle('near', !ok && close);
+  adv.textContent = ok ? 'Juste !' : TN.cents < 0 ? 'Trop bas : tendez un peu la corde' : 'Trop haut : détendez un peu la corde';
+  $('#tn-freq').textContent = f.toFixed(1).replace('.', ',') + ' Hz · ' + (TN.cents > 0 ? '+' : '') + Math.round(TN.cents) + ' cents';
+}
+function tnLoop(){
+  if(!TN.on) return;
+  TN.raf = requestAnimationFrame(tnLoop);
+  var now = performance.now(); if(now - TN.last < 80) return; TN.last = now;
+  TN.an.getFloatTimeDomainData(TN.buf);
+  var f = detectPitch(TN.buf, ctx.sampleRate);
+  if(f){
+    TN.hist.push(f); if(TN.hist.length > 5) TN.hist.shift();
+    var srt = TN.hist.slice().sort(function(a, b){ return a - b; });
+    f = srt[srt.length >> 1];
+  } else TN.hist = [];
+  tnShow(f);
+}
+function tunerStart(){
+  if(TN.on) return;
+  var adv = $('#tn-advice');
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ adv.textContent = 'Ce navigateur ne permet pas d\'utiliser le micro ici.'; return; }
+  if(!initAudio()) return;
+  try{ if(navigator.audioSession) navigator.audioSession.type = 'play-and-record'; }catch(e){}
+  adv.textContent = 'Autorisez le micro…';
+  navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false, noiseSuppression:false, autoGainControl:false}}).then(function(st){
+    TN.stream = st; TN.on = true;
+    TN.src = ctx.createMediaStreamSource(st);
+    TN.an = ctx.createAnalyser(); TN.an.fftSize = 4096; TN.buf = new Float32Array(TN.an.fftSize);
+    TN.src.connect(TN.an);
+    if(ctx.state !== 'running') ctx.resume();
+    $('#tn-mic').textContent = 'Couper le micro';
+    adv.textContent = 'Jouez une corde à vide, laissez-la sonner.';
+    tnLoop();
+  }, function(){
+    try{ if(navigator.audioSession) navigator.audioSession.type = 'playback'; }catch(e){}
+    adv.textContent = 'Le micro est refusé. Autorisez-le dans les réglages du navigateur, puis réessayez.';
+  });
+}
+function tunerStop(){
+  if(!TN.on) return;
+  TN.on = false; cancelAnimationFrame(TN.raf);
+  try{ TN.src.disconnect(); }catch(e){}
+  TN.stream.getTracks().forEach(function(t){ t.stop(); });
+  TN.stream = TN.src = TN.an = null; TN.hist = [];
+  try{ if(navigator.audioSession) navigator.audioSession.type = 'playback'; }catch(e){}
+  $('#tn-mic').textContent = 'Activer le micro';
+  $('.tn-dial').classList.remove('live', 'ok', 'near');
+  $('#tn-note').textContent = '–'; $('#tn-freq').textContent = '';
+  $('#tn-advice').textContent = 'Activez le micro, puis jouez une corde à vide.';
+}
+function tunerOpen(){
+  closeDrawer();
+  $('#tuner').hidden = false; $('.app').inert = true;
+  renderTunerStrings();
+  setTimeout(function(){ $('#tuner-close').focus(); }, 30);
+}
+function tunerClose(){
+  if($('#tuner').hidden) return;
+  tunerStop();
+  $('#tuner').hidden = true;
+  if($('#gate').hidden) $('.app').inert = false;
+  $('#tuner-btn').focus();
+}
+$('#tuner-btn').addEventListener('click', tunerOpen);
+$('#tuner-close').addEventListener('click', tunerClose);
+$('#tn-mic').addEventListener('click', function(){ TN.on ? tunerStop() : tunerStart(); });
+$('#tn-strings-n').addEventListener('click', function(e){
+  var b = e.target.closest('button'); if(!b) return;
+  TN.strings = +b.dataset.v;
+  if(TN.strings === 4 && TN.target === '23') TN.target = 'auto';
+  renderTunerStrings();
+});
+$('#tn-strings').addEventListener('click', function(e){
+  var b = e.target.closest('button'); if(!b) return;
+  TN.target = b.dataset.v; TN.cents = 0; renderTunerStrings();
+});
+$('#tn-ref').addEventListener('click', function(){
+  if(TN.target === 'auto' || !initAudio()) return;
+  bassVoice(ctx.currentTime + .03, +TN.target, 2.4, 1);
+});
+document.addEventListener('visibilitychange', function(){ if(document.hidden) tunerStop(); });
+
+/* =====================================================================
+   Comptes : connexion, validation par l'administrateur,
+   vérification au moins une fois tous les 7 jours (Firebase)
+   ===================================================================== */
+/* La configuration est ajoutée par build-site.py dans la version installable.
+   Sans elle (fichier seul, artifact), l'application reste libre d'accès. */
+var FBC = window.OB_FIREBASE || null;
+var ACC_KEY = 'outils-basse.acces.v1', DAY = 864e5, WEEK = 7 * DAY, RECHECK = 6 * 36e5;
+var A = {auth:null, db:null, user:null, info:null, view:'', checking:false, newName:'', users:[], msgs:[], unsub:[], tab:'users', filter:'pending', confirm:null};
+var ST_LABEL = {ok:'Autorisé', pending:'En attente', blocked:'Bloqué'};
+var noop = function(){};
+
+function accLoad(){ try{ var o = JSON.parse(localStorage.getItem(ACC_KEY)); return o && typeof o === 'object' ? o : null; }catch(e){ return null; } }
+function accSave(o){ try{ if(o) localStorage.setItem(ACC_KEY, JSON.stringify(o)); else localStorage.removeItem(ACC_KEY); }catch(e){} }
+/* Accès valable : compte autorisé, vérifié il y a moins de 7 jours (et pas « dans le futur »). */
+function accValid(o){
+  var now = Date.now();
+  return !!o && o.status === 'ok' && typeof o.checkedAt === 'number' && now - o.checkedAt < WEEK && o.checkedAt - now < DAY;
+}
+var tsDate = function(t){ return t && t.toDate ? t.toDate() : (typeof t === 'number' ? new Date(t) : null); };
+function fmtDate(d){ return d ? d.toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'}) : '–'; }
+function fmtWhen(d){
+  if(!d) return 'jamais';
+  var m = Math.round((Date.now() - d.getTime()) / 6e4);
+  if(m < 2) return 'à l\'instant';
+  if(m < 60) return 'il y a ' + m + ' min';
+  var h = Math.round(m / 60); if(h < 24) return 'il y a ' + h + ' h';
+  var j = Math.round(h / 24); if(j < 30) return 'il y a ' + plural(j, 'jour', 'jours');
+  return 'le ' + fmtDate(d);
+}
+function authMsg(e){
+  var c = e && e.code || '', bad = 'E-mail ou mot de passe incorrect.';
+  return ({
+    'auth/invalid-email':'Cette adresse e-mail n\'est pas valide.',
+    'auth/missing-email':'Entrez votre adresse e-mail.',
+    'auth/missing-password':'Entrez votre mot de passe.',
+    'auth/invalid-credential':bad, 'auth/invalid-login-credentials':bad, 'auth/wrong-password':bad, 'auth/user-not-found':bad,
+    'auth/email-already-in-use':'Un compte existe déjà avec cette adresse : connectez-vous.',
+    'auth/weak-password':'Le mot de passe doit contenir au moins 6 caractères.',
+    'auth/too-many-requests':'Trop d\'essais. Patientez quelques minutes puis réessayez.',
+    'auth/network-request-failed':'Pas de connexion à Internet.',
+    'auth/user-disabled':'Ce compte a été désactivé.'
+  })[c] || 'Une erreur est survenue. Réessayez.';
+}
+function loadScript(src){
+  return new Promise(function(ok, ko){ var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
+}
+function loadSdk(){
+  if(window.firebase && firebase.firestore) return Promise.resolve();
+  var b = FBC.sdk || 'firebase/';
+  return loadScript(b + 'firebase-app-compat.js').then(function(){
+    return Promise.all([loadScript(b + 'firebase-auth-compat.js'), loadScript(b + 'firebase-firestore-compat.js')]);
+  });
+}
+
+/* ---- Écran d'accès ---- */
+function el(tag, props, kids){
+  var e = document.createElement(tag);
+  if(props) Object.keys(props).forEach(function(k){
+    if(k === 'text') e.textContent = props[k];
+    else if(k === 'cls') e.className = props[k];
+    else if(k === 'on') Object.keys(props.on).forEach(function(ev){ e.addEventListener(ev, props.on[ev]); });
+    else e.setAttribute(k, props[k]);
+  });
+  (kids || []).forEach(function(c){ if(c) e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+  return e;
+}
+function inputField(id, label, type, extra){
+  var p = {id:id, type:type, required:''};
+  Object.keys(extra || {}).forEach(function(k){ p[k] = extra[k]; });
+  return el('div', {cls:'field'}, [el('label', {'for':id, text:label}), el('input', p)]);
+}
+function gateMsg(txt, cls){ var m = $('#gate-msg'); if(m){ m.textContent = txt || ''; m.className = 'gate-msg' + (cls ? ' ' + cls : ''); } }
+function gateBusy(on){
+  [].forEach.call($('#gate-view').querySelectorAll('button,input'), function(b){ b.disabled = on; });
+}
+function contactFromGate(){ openDrawer(); var d = $('#acc-contact'); d.open = true; setTimeout(function(){ d.scrollIntoView({block:'start'}); $('#ct-msg').focus(); }, 60); }
+function gateShow(view){
+  var g = $('#gate'), v = $('#gate-view');
+  if(R.playing) stop();
+  if(UI.droneOn) droneToggle();
+  g.hidden = false; $('.app').inert = true; $('.app').setAttribute('aria-hidden', 'true');
+  if(A.view === view && v.firstChild) return;
+  A.view = view; v.textContent = '';
+  var info = A.info || accLoad() || {}, msg = el('p', {id:'gate-msg', cls:'gate-msg', role:'status', 'aria-live':'polite'});
+  var title = function(t){ return el('h2', {id:'gate-title', text:t}); };
+  var link = function(t, fn){ return el('button', {type:'button', cls:'linkbtn', text:t, on:{click:fn}}); };
+  if(view === 'loading'){
+    v.appendChild(title('Vérification de votre accès…'));
+    v.appendChild(el('div', {cls:'spin', 'aria-hidden':'true'}));
+  } else if(view === 'login' || view === 'signup' || view === 'reset'){
+    var signup = view === 'signup', reset = view === 'reset';
+    v.appendChild(title(signup ? 'Créer un compte' : reset ? 'Mot de passe oublié' : 'Connexion'));
+    v.appendChild(el('p', {cls:'legend', text: signup ? 'L\'administrateur valide chaque nouveau compte avant qu\'il puisse utiliser l\'application.'
+      : reset ? 'Entrez votre adresse : vous recevrez un e-mail pour choisir un nouveau mot de passe.'
+      : 'Connectez-vous pour utiliser l\'application.'}));
+    var f = el('form', {novalidate:''});
+    if(signup) f.appendChild(inputField('g-name', 'Votre nom', 'text', {maxlength:'60', autocomplete:'name'}));
+    f.appendChild(inputField('g-email', 'E-mail', 'email', {maxlength:'120', autocomplete:'email', inputmode:'email', autocapitalize:'off'}));
+    if(!reset) f.appendChild(inputField('g-pass', signup ? 'Mot de passe (6 caractères minimum)' : 'Mot de passe', 'password', {autocomplete: signup ? 'new-password' : 'current-password', maxlength:'100'}));
+    f.appendChild(el('button', {type:'submit', cls:'save-btn', text: signup ? 'Créer mon compte' : reset ? 'Recevoir le lien' : 'Se connecter'}));
+    f.appendChild(msg);
+    f.addEventListener('submit', function(e){ e.preventDefault(); gateSubmit(view); });
+    v.appendChild(f);
+    var links = el('div', {cls:'gate-links'});
+    if(view === 'login'){
+      links.appendChild(link('Créer un compte', function(){ gateShow('signup'); }));
+      links.appendChild(link('Mot de passe oublié ?', function(){ gateShow('reset'); }));
+    } else links.appendChild(link('J\'ai déjà un compte', function(){ gateShow('login'); }));
+    v.appendChild(links);
+    if(info.email && $('#g-email')) $('#g-email').value = info.email;
+    setTimeout(function(){ var i = v.querySelector('input'); if(i && matchMedia('(pointer:fine)').matches) i.focus(); }, 30);
+  } else if(view === 'pending' || view === 'blocked'){
+    var pend = view === 'pending', who = info.name ? 'Bonjour ' + info.name + '. ' : '';
+    v.appendChild(title(pend ? 'Compte en attente de validation' : 'Accès suspendu'));
+    v.appendChild(el('p', {text: pend ? who + 'Votre compte est bien créé. L\'administrateur doit le valider avant que vous puissiez utiliser l\'application.'
+      : who + 'L\'administrateur a suspendu votre accès à l\'application.'}));
+    if(info.email) v.appendChild(el('p', {cls:'legend', text:'Compte : ' + info.email}));
+    if(pend) v.appendChild(el('button', {type:'button', cls:'save-btn', text:'Vérifier à nouveau', on:{click:function(){ gateMsg('Vérification…'); accCheck(true); }}}));
+    v.appendChild(el('button', {type:'button', cls:'ghost', text:'Écrire à l\'administrateur', on:{click:contactFromGate}}));
+    v.appendChild(msg);
+    v.appendChild(link('Se déconnecter', accLogout));
+  } else if(view === 'offline'){
+    var never = !info.checkedAt;
+    v.appendChild(title('Connexion à Internet nécessaire'));
+    v.appendChild(el('p', {text: never ? 'Pour la première utilisation, l\'application doit se connecter à Internet.'
+      : 'L\'application vérifie votre compte au moins une fois tous les 7 jours. Connectez-vous à Internet pour continuer.'}));
+    if(info.checkedAt) v.appendChild(el('p', {cls:'legend', text:'Dernière vérification : ' + fmtWhen(new Date(info.checkedAt)) + '.'}));
+    v.appendChild(el('button', {type:'button', cls:'save-btn', text:'Réessayer', on:{click:function(){ gateMsg('Vérification…'); accRetry(); }}}));
+    v.appendChild(msg);
+  }
+}
+function gateHide(){
+  A.view = '';
+  $('#gate').hidden = true; $('#gate-view').textContent = '';
+  $('.app').inert = false; $('.app').removeAttribute('aria-hidden');
+}
+function gateSubmit(view){
+  if(!A.auth){ gateMsg('Connexion au service en cours, réessayez dans un instant.', 'err'); return; }
+  var email = ($('#g-email').value || '').trim(), pass = $('#g-pass') ? $('#g-pass').value : '';
+  var name = $('#g-name') ? $('#g-name').value.trim() : '';
+  if(view === 'signup' && !name){ gateMsg('Entrez votre nom.', 'err'); $('#g-name').focus(); return; }
+  if(!email){ gateMsg('Entrez votre adresse e-mail.', 'err'); $('#g-email').focus(); return; }
+  if(view !== 'reset' && !pass){ gateMsg('Entrez votre mot de passe.', 'err'); $('#g-pass').focus(); return; }
+  gateBusy(true); gateMsg(view === 'reset' ? 'Envoi…' : 'Connexion…');
+  var p;
+  if(view === 'reset') p = A.auth.sendPasswordResetEmail(email).then(function(){
+    gateBusy(false);
+    gateMsg('C\'est envoyé. Si un compte existe pour cette adresse, vous allez recevoir un e-mail (pensez à regarder dans les spams).', 'ok');
+  });
+  else if(view === 'signup'){
+    A.newName = name.slice(0, 60);
+    p = A.auth.createUserWithEmailAndPassword(email, pass).then(function(c){ return c.user.updateProfile({displayName:A.newName}).catch(noop); });
+  } else p = A.auth.signInWithEmailAndPassword(email, pass);
+  p.catch(function(e){ gateBusy(false); gateMsg(authMsg(e), 'err'); });
+}
+function accLogout(){
+  closeDrawer(); adminClose(); adminStop();
+  accSave(null); A.info = null;
+  if(A.auth) A.auth.signOut(); else { renderAccount(); gateShow('login'); }
+}
+
+/* ---- Vérification du compte ---- */
+function accesInit(){
+  if(!FBC){ renderAccount(); return; }
+  var loc = accLoad();
+  if(accValid(loc)){ A.info = loc; gateHide(); } else gateShow('loading');
+  renderAccount();
+  loadSdk().then(function(){
+    firebase.initializeApp(FBC.config);
+    A.auth = firebase.auth(); A.db = firebase.firestore();
+    A.auth.languageCode = 'fr';
+    if(FBC.emulator){ A.auth.useEmulator(FBC.emulator.auth, {disableWarnings:true}); A.db.useEmulator(FBC.emulator.host, FBC.emulator.port); }
+    A.auth.onAuthStateChanged(onUser);
+  }, function(){ if(!accValid(accLoad())) gateShow('offline'); });
+  window.addEventListener('online', function(){ accRetry(); });
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) accTick(); });
+  setInterval(accTick, 10 * 6e4);
+}
+/* Revérifie de temps en temps, et verrouille si les 7 jours sont dépassés pendant l'utilisation. */
+function accTick(){
+  if(!FBC) return;
+  var loc = accLoad();
+  if(A.user && (!loc || Date.now() - loc.checkedAt > RECHECK)) accCheck();
+  else if(!accValid(loc) && $('#gate').hidden) accCheck();
+}
+function accRetry(){ if(A.user) accCheck(true); else if(!A.auth) location.reload(); }
+function onUser(u){
+  A.user = u;
+  if(!u){ accSave(null); A.info = null; adminStop(); renderAccount(); gateShow('login'); return; }
+  if(!accValid(accLoad()) || (A.info && A.info.uid !== u.uid)) gateShow('loading');
+  accCheck();
+}
+function accCheck(manual){
+  if(!A.user || !A.db || A.checking) return;
+  A.checking = true;
+  var u = A.user, ref = A.db.collection('users').doc(u.uid), sv = firebase.firestore.FieldValue.serverTimestamp;
+  ref.get({source:'server'}).then(function(d){
+    if(d.exists) return d.data();
+    var data = {name:(A.newName || u.displayName || '').slice(0, 60), email:u.email, status:'pending', createdAt:sv(), lastSeen:sv()};
+    return ref.set(data).then(function(){ return data; });
+  }).then(function(d){
+    var info = {uid:u.uid, email:u.email, name:d.name || '', status:d.status, role:d.role === 'admin' ? 'admin' : '', checkedAt:Date.now()};
+    A.info = info; accSave(info); A.newName = '';
+    ref.update({lastSeen:sv()}).catch(noop);
+    if(d.status === 'ok') gateHide();
+    else { gateShow(d.status === 'blocked' ? 'blocked' : 'pending'); if(manual) gateMsg('Votre compte n\'est pas encore validé.'); }
+    if(info.role === 'admin' && d.status === 'ok') adminWatch(); else adminStop();
+    renderAccount();
+  }, function(){
+    var loc = accLoad();
+    if(accValid(loc) && loc.uid === u.uid){ A.info = loc; gateHide(); renderAccount(); if(loc.role === 'admin') adminWatch(); }
+    else { gateShow('offline'); if(manual) gateMsg(navigator.onLine === false ? 'Toujours pas de connexion.' : 'Le service ne répond pas. Réessayez dans un instant.', 'err'); }
+  }).then(function(){ A.checking = false; });
+}
+
+/* ---- Rubrique « Mon compte » et contact ---- */
+function renderAccount(){
+  var on = !!FBC && !!A.info, info = A.info || {};
+  $('#acc-compte').hidden = !on;
+  $('#acc-admin').hidden = !(on && info.role === 'admin' && info.status === 'ok');
+  [].forEach.call(document.querySelectorAll('.ct-id'), function(f){ f.hidden = on; });
+  var who = $('#ct-who'); who.hidden = !on;
+  if(on) who.textContent = 'Envoyé au nom de ' + (info.name || info.email) + (info.name ? ' (' + info.email + ')' : '') + '.';
+  if(!on) return;
+  $('#compte-hint').textContent = info.name || info.email;
+  var dl = $('#acct-info'); dl.textContent = '';
+  var row = function(k, v){ dl.appendChild(el('dt', {text:k})); dl.appendChild(v.nodeType ? el('dd', null, [v]) : el('dd', {text:v})); };
+  row('Nom', info.name || '–');
+  row('E-mail', info.email || '–');
+  var st = el('span', null, [el('span', {cls:'st st-' + info.status, text:ST_LABEL[info.status] || info.status})]);
+  if(info.role === 'admin'){ st.appendChild(document.createTextNode(' ')); st.appendChild(el('span', {cls:'st st-admin', text:'Administrateur'})); }
+  row('Statut', st);
+  if(info.checkedAt){
+    row('Vérifié', fmtWhen(new Date(info.checkedAt)));
+    row('Valable jusqu\'au', fmtDate(new Date(info.checkedAt + WEEK)));
+  }
+}
+function sendMessage(data){
+  var u = A.user, info = A.info || {};
+  return A.db.collection('messages').add({
+    uid:u.uid, name:(info.name || '').slice(0, 60), email:u.email, subject:data.subject.slice(0, 40), text:data.text.slice(0, 2000),
+    createdAt:firebase.firestore.FieldValue.serverTimestamp(), read:false,
+    version:APP_VERSION, device:(navigator.userAgent || '').slice(0, 250)
+  });
+}
+
+/* ---- Page Admin ---- */
+function adminWatch(){
+  if(A.unsub.length || !A.db) return;
+  var fail = function(){ $('#admin-msg').textContent = 'Impossible de lire les données. Vérifiez la connexion.'; $('#admin-msg').className = 'gate-msg err'; };
+  A.unsub.push(A.db.collection('users').onSnapshot(function(q){
+    A.users = q.docs.map(function(d){ var o = d.data(); o.id = d.id; return o; });
+    renderAdmin();
+  }, fail));
+  A.unsub.push(A.db.collection('messages').orderBy('createdAt', 'desc').limit(300).onSnapshot(function(q){
+    A.msgs = q.docs.map(function(d){ var o = d.data(); o.id = d.id; return o; });
+    renderAdmin();
+  }, fail));
+}
+function adminStop(){ A.unsub.forEach(function(f){ try{ f(); }catch(e){} }); A.unsub = []; A.users = []; A.msgs = []; renderAdminHint(); }
+function adminOpen(){
+  if(!A.info || A.info.role !== 'admin') return;
+  closeDrawer(); adminWatch();
+  $('#admin').hidden = false; $('.app').inert = true;
+  renderAdmin();
+  setTimeout(function(){ $('#admin-close').focus(); }, 30);
+}
+function adminClose(){
+  if($('#admin').hidden) return;
+  $('#admin').hidden = true; A.confirm = null;
+  if($('#gate').hidden) $('.app').inert = false;
+  $('#gear').focus();
+}
+function renderAdminHint(){
+  var np = A.users.filter(function(u){ return u.status === 'pending'; }).length, nm = A.msgs.filter(function(m){ return !m.read; }).length;
+  var parts = [];
+  if(np) parts.push(plural(np, 'compte en attente', 'comptes en attente'));
+  if(nm) parts.push(plural(nm, 'message non lu', 'messages non lus'));
+  $('#admin-hint').textContent = parts.join(' · ') || 'Comptes et messages';
+  $('#gear').classList.toggle('notif', !!(np || nm));
+  var t = $('#admin-tabs').children;
+  t[0].textContent = 'Comptes' + (np ? ' (' + np + ')' : '');
+  t[1].textContent = 'Messages' + (nm ? ' (' + nm + ')' : '');
+}
+var FILTERS = [{v:'pending', l:'En attente'}, {v:'ok', l:'Autorisés'}, {v:'blocked', l:'Bloqués'}, {v:'all', l:'Tous'}];
+function setStatus(id, status){
+  $('#admin-msg').textContent = '';
+  A.db.collection('users').doc(id).update({status:status}).catch(function(){
+    $('#admin-msg').textContent = 'La modification n\'a pas pu être enregistrée.'; $('#admin-msg').className = 'gate-msg err';
+  });
+}
+function renderAdmin(){
+  renderAdminHint();
+  if($('#admin').hidden) return;
+  [].forEach.call($('#admin-tabs').children, function(b){ b.setAttribute('aria-selected', String(b.dataset.v === A.tab)); });
+  var list = $('#admin-list'), fl = $('#admin-filter'); list.textContent = ''; fl.textContent = '';
+  fl.hidden = A.tab !== 'users';
+  var btn = function(t, cls, fn){ return el('button', {type:'button', cls:cls || '', text:t, on:{click:fn}}); };
+  if(A.tab === 'users'){
+    FILTERS.forEach(function(f){
+      var n = f.v === 'all' ? A.users.length : A.users.filter(function(u){ return u.status === f.v; }).length;
+      var b = btn(f.l + ' ' + n, 'chip', function(){ A.filter = f.v; renderAdmin(); });
+      b.setAttribute('aria-pressed', String(A.filter === f.v)); fl.appendChild(b);
+    });
+    var rows = A.users.filter(function(u){ return A.filter === 'all' || u.status === A.filter; });
+    rows.sort(function(a, b){ var ta = tsDate(a.createdAt), tb = tsDate(b.createdAt); return (tb ? tb.getTime() : 0) - (ta ? ta.getTime() : 0); });
+    if(!rows.length) list.appendChild(el('p', {cls:'legend adm-empty', text: A.filter === 'pending' ? 'Aucun compte en attente.' : 'Aucun compte.'}));
+    rows.forEach(function(u){
+      var me = A.user && u.id === A.user.uid;
+      var c = el('article', {cls:'card'});
+      var h = el('div', {cls:'card-h'}, [el('b', {text:u.name || '(sans nom)'})]);
+      var chips = el('span', null, [el('span', {cls:'st st-' + u.status, text:ST_LABEL[u.status] || u.status})]);
+      if(u.role === 'admin'){ chips.appendChild(document.createTextNode(' ')); chips.appendChild(el('span', {cls:'st st-admin', text:'Admin'})); }
+      h.appendChild(chips); c.appendChild(h);
+      c.appendChild(el('p', {cls:'meta', text:u.email || ''}));
+      c.appendChild(el('p', {cls:'meta', text:'Inscrit le ' + fmtDate(tsDate(u.createdAt)) + ' · vu ' + fmtWhen(tsDate(u.lastSeen))}));
+      var acts = el('div', {cls:'acts'});
+      if(me) acts.appendChild(el('span', {cls:'meta', text:'C\'est votre compte.'}));
+      else if(u.status === 'pending'){
+        acts.appendChild(btn('Valider', 'go', function(){ setStatus(u.id, 'ok'); }));
+        acts.appendChild(btn('Refuser', 'no', function(){ setStatus(u.id, 'blocked'); }));
+      } else if(u.status === 'ok') acts.appendChild(btn('Bloquer', 'no', function(){ setStatus(u.id, 'blocked'); }));
+      else acts.appendChild(btn('Débloquer', 'go', function(){ setStatus(u.id, 'ok'); }));
+      c.appendChild(acts);
+      list.appendChild(c);
+    });
+  } else {
+    if(!A.msgs.length) list.appendChild(el('p', {cls:'legend adm-empty', text:'Aucun message pour le moment.'}));
+    A.msgs.forEach(function(m){
+      var c = el('article', {cls:'card' + (m.read ? '' : ' unread')});
+      c.appendChild(el('div', {cls:'card-h'}, [el('b', {text:m.subject || 'Message'}), el('span', {cls:'meta', text:fmtDate(tsDate(m.createdAt))})]));
+      c.appendChild(el('p', {cls:'meta', text:(m.name || '(sans nom)') + ' · ' + (m.email || '')}));
+      c.appendChild(el('p', {cls:'txt', text:m.text || ''}));
+      if(m.version) c.appendChild(el('p', {cls:'meta', text:'Version ' + m.version}));
+      var acts = el('div', {cls:'acts'}), ref = A.db.collection('messages').doc(m.id);
+      if(!m.read) acts.appendChild(btn('Marquer comme lu', 'go', function(){ ref.update({read:true}).catch(noop); }));
+      else acts.appendChild(btn('Marquer non lu', '', function(){ ref.update({read:false}).catch(noop); }));
+      var del = btn(A.confirm === m.id ? 'Confirmer la suppression' : 'Supprimer', 'no' + (A.confirm === m.id ? ' confirm' : ''), function(){
+        if(A.confirm === m.id){ A.confirm = null; ref.delete().catch(noop); }
+        else { A.confirm = m.id; renderAdmin(); }
+      });
+      acts.appendChild(del);
+      c.appendChild(acts);
+      list.appendChild(c);
+    });
+  }
+}
+$('#admin-open').addEventListener('click', adminOpen);
+$('#admin-close').addEventListener('click', adminClose);
+$('#admin-tabs').addEventListener('click', function(e){ var b = e.target.closest('button'); if(!b) return; A.tab = b.dataset.v; A.confirm = null; renderAdmin(); });
+$('#acct-logout').addEventListener('click', accLogout);
 
 /* =====================================================================
    Démarrage
@@ -2644,7 +3311,8 @@ setAudioState();
 document.addEventListener('visibilitychange', function(){
   if(!document.hidden && ctx && ctx.state !== 'running'){ try{ ctx.resume(); }catch(e){} }
 });
-window.__app = {S:S, R:R, start:start, stop:stop, get ctx(){ return ctx; }, setMode:setMode, loadPreset:loadPreset};
+accesInit();
+window.__app = {A:A, TN:TN, detectPitch:detectPitch, S:S, R:R, start:start, stop:stop, get ctx(){ return ctx; }, setMode:setMode, loadPreset:loadPreset};
 })();
 </script>
 <script>

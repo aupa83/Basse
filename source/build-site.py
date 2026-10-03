@@ -17,6 +17,16 @@ if('serviceWorker' in navigator && (location.protocol === 'https:' || location.h
 }
 </script>
 '''
+# Comptes : si firebase-config.json existe à côté du script (ou est donné en 3e argument),
+# l'application demande une connexion. Sans ce fichier, elle reste libre d'accès.
+import json
+conf = pathlib.Path(sys.argv[3]) if len(sys.argv) > 3 else pathlib.Path(__file__).with_name('firebase-config.json')
+if conf.exists():
+    fb = json.loads(conf.read_text(encoding='utf-8'))
+    if 'config' not in fb: fb = {'config': fb}
+    fb.setdefault('sdk', 'firebase/')
+    head += '<script>window.OB_FIREBASE = ' + json.dumps(fb, ensure_ascii=False) + ';</script>\n'
+    print('comptes activés :', fb['config'].get('projectId'))
 assert s.count('</title>') == 1 and s.count('</body>') == 1
 s = s.replace('</title>', '</title>\n' + head, 1).replace('</body>', tail + '</body>', 1)
 out.write_text(s, encoding='utf-8')
