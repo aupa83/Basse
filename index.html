@@ -151,6 +151,10 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
 .pend .arc{fill:none;stroke:var(--line);stroke-width:2}
 .pend .tk{stroke:var(--line);stroke-width:2;stroke-linecap:round}
 .pend .tk.end{stroke:var(--warm);stroke-width:4}
+.pend .tk.q16{stroke:var(--sub)}
+.pend .tk.tri{stroke:var(--strong)}
+.pend-key{display:flex;justify-content:center;gap:16px;margin:-6px 0 0;font-family:var(--font-mono);font-size:.72rem;color:var(--muted)}
+.pend-key i{display:inline-block;width:12px;height:2px;margin-right:6px;vertical-align:middle;border-radius:1px}
 .pend .base{fill:var(--raised);stroke:var(--line);stroke-width:1.5}
 .pend .rod{stroke:var(--fg);stroke-opacity:.85;stroke-width:6;stroke-linecap:round}
 .pend .bob{fill:var(--accent);stroke:var(--panel);stroke-width:4}
@@ -469,6 +473,7 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
     <div id="metro-view" class="stack">
       <section class="panel pend" aria-label="Balancier">
         <svg viewBox="0 0 400 250" aria-hidden="true" id="pend-svg"></svg>
+        <p class="pend-key" aria-hidden="true"><span><i style="background:var(--sub)"></i>doubles croches</span><span><i style="background:var(--strong)"></i>triolets</span></p>
       </section>
 
       <section class="panel" aria-label="Signature rythmique">
@@ -797,7 +802,7 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
       <summary><span class="acc-t"><span class="acc-h" id="compte-lab">Mon compte</span><small id="compte-hint"></small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
       <div class="acc-b">
         <dl class="acct" id="acct-info"></dl>
-        <p class="legend" id="acct-rule" style="font-size:.82rem">L'application vérifie le compte à chaque ouverture avec Internet. Sans connexion, elle reste utilisable 7 jours.</p>
+        <p class="legend" id="acct-rule" style="font-size:.82rem">Les utilisateurs doivent se connecter à Internet au moins une fois tous les 7 jours. Votre compte administrateur n'est pas concerné.</p>
         <button id="acct-logout" class="ghost" type="button">Se déconnecter</button>
       </div>
     </details>
@@ -1693,8 +1698,9 @@ function buildPendulum(){
   var a = polar(-60, ARC), b = polar(60, ARC);
   h += '<path class="arc" d="M ' + a[0] + ' ' + a[1] + ' A ' + ARC + ' ' + ARC + ' 0 0 1 ' + b[0] + ' ' + b[1] + '"/>';
   for(var d = -60; d <= 60; d += 10){
-    var end = Math.abs(d) === 60, p1 = polar(d, ARC - (end ? 12 : 5)), p2 = polar(d, ARC + (end ? 12 : 5));
-    h += '<line class="tk' + (end ? ' end' : '') + '" x1="' + p1[0] + '" y1="' + p1[1] + '" x2="' + p2[0] + '" y2="' + p2[1] + '"/>';
+    /* Un temps = 12 graduations : toutes les 3, les doubles croches ; toutes les 4, les triolets. */
+    var end = Math.abs(d) === 60, i = (d + 60) / 10, p1 = polar(d, ARC - (end ? 12 : 5)), p2 = polar(d, ARC + (end ? 12 : 5));
+    h += '<line class="tk' + (end ? ' end' : i % 3 === 0 ? ' q16' : i % 4 === 0 ? ' tri' : '') + '" x1="' + p1[0] + '" y1="' + p1[1] + '" x2="' + p2[0] + '" y2="' + p2[1] + '"/>';
   }
   h += '<path class="base" d="M 138 248 Q 140 214 176 213 H 224 Q 260 214 262 248 Z"/>';
   h += '<g id="pend-g" transform="rotate(60 200 212)"><line class="rod" x1="200" y1="212" x2="200" y2="' + (212 - ROD) + '"/><rect class="bob" id="bob" x="183" width="34" height="44" rx="7"/></g>';
@@ -2966,6 +2972,7 @@ function accSave(o){ try{ if(o) localStorage.setItem(ACC_KEY, JSON.stringify(o))
 /* Accès valable : compte autorisé, vérifié il y a moins de 7 jours (et pas « dans le futur »). */
 function accValid(o){
   var now = Date.now();
+  if(o && o.status === 'ok' && o.role === 'admin') return true;   /* l'administrateur n'a pas de limite de 7 jours */
   return !!o && o.status === 'ok' && typeof o.checkedAt === 'number' && now - o.checkedAt < WEEK && o.checkedAt - now < DAY;
 }
 var tsDate = function(t){ return t && t.toDate ? t.toDate() : (typeof t === 'number' ? new Date(t) : null); };
@@ -3186,13 +3193,10 @@ function renderAccount(){
   var st = el('span', null, [el('span', {cls:'st st-' + info.status, text:ST_LABEL[info.status] || info.status})]);
   if(info.role === 'admin'){ st.appendChild(document.createTextNode(' ')); st.appendChild(el('span', {cls:'st st-admin', text:'Administrateur'})); }
   row('Statut', st);
-  /* La validité n'est montrée qu'à l'administrateur. */
+  /* La date de vérification et la règle des 7 jours ne sont montrées qu'à l'administrateur. */
   var adm = info.role === 'admin';
   $('#acct-rule').hidden = !adm;
-  if(adm && info.checkedAt){
-    row('Vérifié', fmtWhen(new Date(info.checkedAt)));
-    row('Valable jusqu\'au', fmtDate(new Date(info.checkedAt + WEEK)));
-  }
+  if(adm && info.checkedAt) row('Vérifié', fmtWhen(new Date(info.checkedAt)));
 }
 function sendMessage(data){
   var u = A.user, info = A.info || {};
