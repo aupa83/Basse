@@ -455,6 +455,7 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
         <div class="chord-name" id="chord-name">Do</div>
         <div class="pills" id="chord-notes"></div>
         <p id="scale-line"></p>
+        <p id="bass-line" hidden></p>
         <p id="freq-line"></p>
       </div>
       <div class="two">
@@ -769,8 +770,8 @@ var PROGS = [
 ];
 var BASS_PATS = [
   {id:'root', label:'Fondamentale', help:'La fondamentale sur chaque temps.'},
-  {id:'root5', label:'Fondamentale et quinte', help:'Fondamentale puis quinte, en alternance.'},
-  {id:'arp', label:'Arpège', help:'Fondamentale, tierce, quinte, octave.'},
+  {id:'root5', label:'Fondamentale et quinte', help:'Fondamentale puis quinte de l\'accord, en alternance.'},
+  {id:'arp', label:'Arpège', help:'Les notes de l\'accord une par une, de la plus grave à l\'octave.'},
   {id:'walk', label:'Walking', help:'Une note par temps sur les notes de l\'accord, avec une note de passage chromatique avant chaque changement d\'accord.'},
   {id:'octave', label:'Octaves', help:'Fondamentale sur le temps, octave sur le contretemps, pour le funk et le disco.'}
 ];
@@ -1155,26 +1156,34 @@ function bassVoice(t, midi, dur, vel){
   var bg = ctx.createGain(); bg.gain.value = .8; sub.connect(bg); bg.connect(out);
   saw.start(t); sub.start(t); saw.stop(end + .3); sub.stop(end + .3);
 }
+/* L'accord choisit les notes, le motif choisit leur ordre et leur rythme.
+   Chaque motif ne joue que des notes de l'accord, plus l'octave de la fondamentale :
+   avec « Note seule », il ne reste que la fondamentale et son octave. Seule exception voulue :
+   la note de passage du walking, juste avant un changement d'accord. */
+function bassSeq(chordId, pat){
+  var iv = chordDef(chordId).iv;
+  var fifth = iv.indexOf(7) >= 0 ? 7 : iv.indexOf(6) >= 0 ? 6 : 12;
+  if(pat === 'root') return [0];
+  if(pat === 'octave') return [0, 12];
+  if(pat === 'root5') return [0, fifth];
+  if(iv.length === 1) return [0, 12];
+  if(iv.length === 2) return [0, iv[1], 12, iv[1]];
+  return [0, iv[1], iv[2], iv[3] != null ? iv[3] : 12];   /* arpège et walking */
+}
 /* Joue la note de basse d'un temps. gb : case de la grille en cours (ou null). */
 function bassBeat(t, bd, st, gb){
-  var c = snd, iv = chordDef(c.chord).iv, base = 12 * (S.drone.oct + 1) + c.root;
-  var t3 = iv.length >= 3 ? iv[1] : (iv.length === 2 ? iv[1] : 12);
-  var t5 = iv.length >= 3 ? iv[2] : 7;
-  var t7 = iv[3] != null ? iv[3] : 12;
+  var c = snd, base = 12 * (S.drone.oct + 1) + c.root;
   var idx = gb ? gb.beatIn : st.beat, len = gb ? gb.slotBeats : beatsInBar();
-  var pat = S.drone.bassPat, note = base;
+  var pat = S.drone.bassPat, seq = bassSeq(c.chord, pat), note = base + seq[idx % seq.length];
   if(pat === 'octave'){
     bassVoice(t, base, bd * .42, .9);
     bassVoice(t + bd / 2, base + 12, bd * .38, .75);
     return;
   }
-  if(pat === 'root5') note = base + (idx % 2 ? t5 : 0);
-  else if(pat === 'arp') note = base + [0, t3, t5, 12][idx % 4];
-  else if(pat === 'walk'){
-    note = base + [0, t3, t5, t7][idx % 4];
+  if(pat === 'walk'){
     if(len > 1 && idx === len - 1){
       /* Note de passage : un demi-ton sous (ou sur) la prochaine fondamentale, la plus proche. */
-      var prev = base + [0, t3, t5, t7][(idx + 3) % 4], nr = gb && gb.next ? gb.next.root : c.root;
+      var prev = base + seq[(idx + seq.length - 1) % seq.length], nr = gb && gb.next ? gb.next.root : c.root;
       var target = 12 * (S.drone.oct + 1) + nr;
       [target - 12, target + 12].forEach(function(x){ if(Math.abs(x - prev) < Math.abs(target - prev)) target = x; });
       note = prev < target ? target - 1 : target + 1;
@@ -1898,8 +1907,9 @@ function renderDroneKind(){
     box.appendChild(b);
   });
   var cur = BASS_PATS.filter(function(p){ return p.id === S.drone.bassPat; })[0];
-  $('#bass-help').textContent = cur.help + ' La basse joue avec le métronome ou la batterie, et se tait pendant les mesures muettes.';
+  $('#bass-help').textContent = 'L\'accord choisi plus bas donne les notes, le motif donne leur ordre et leur rythme. ' + cur.help + ' La basse joue avec le métronome ou la batterie, et se tait pendant les mesures muettes.';
   if(!curG) $('#readout-tag').textContent = curTag = droneTag();
+  renderBassLine();
   renderDronePlay();
 }
 function renderKeys(){
@@ -1931,8 +1941,9 @@ function renderSeg(el, items, cur){
   });
 }
 var curTag = 'Accord du drone';
+var readC = null;
 function renderReadout(c, tag){
-  c = c || snd;
+  c = c || snd; readC = c;
   if(tag !== undefined) curTag = tag;
   var ch = chordDef(c.chord), sh = sharpsFor(c);
   $('#readout-tag').textContent = curTag;
@@ -1947,6 +1958,22 @@ function renderReadout(c, tag){
   } else sl.textContent = 'Une seule note tenue, pour travailler les intervalles et les gammes.';
   var base = 12 * (S.drone.oct + 1) + c.root;
   $('#freq-line').textContent = 'Fondamentale : ' + nm(c.root, sh) + S.drone.oct + ' à ' + freq(base).toFixed(1).replace('.', ',') + ' Hz';
+  renderBassLine();
+}
+/* Montre les notes que la basse joue vraiment avec cet accord et ce motif. */
+function renderBassLine(){
+  var el = $('#bass-line'), c = readC || snd, bass = S.drone.kind === 'bass';
+  el.hidden = !bass; el.textContent = '';
+  if(!bass) return;
+  var sh = sharpsFor(c), pat = S.drone.bassPat;
+  var name = function(o){ return nm(c.root + o, sh) + (o === 12 ? ' aigu' : ''); };
+  var seq = bassSeq(c.chord, pat).map(name);
+  el.appendChild(document.createTextNode('La basse joue : '));
+  el.appendChild(mk('b', '', pat === 'octave' ? name(0) + ' puis ' + name(12) + ' sur le contretemps' : seq.join(' · ')));
+  var extra = '';
+  if(pat === 'walk') extra = ', avec une note de passage sur le dernier temps, qui mène à l\'accord suivant';
+  else if(pat === 'root5' && chordDef(c.chord).iv.length === 1) extra = '. « Note seule » n\'a pas de quinte : la basse prend l\'octave à la place';
+  el.appendChild(document.createTextNode(extra + '.'));
 }
 function renderDroneMisc(){
   renderSeg($('#oct'), [{v:1,label:'1'},{v:2,label:'2'},{v:3,label:'3'}], S.drone.oct);
