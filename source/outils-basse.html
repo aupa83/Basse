@@ -3136,10 +3136,14 @@ function accCheck(manual){
     else { gateShow(d.status === 'blocked' ? 'blocked' : 'pending'); if(manual) gateMsg('Votre compte n\'est pas encore validé.'); }
     if(info.role === 'admin' && d.status === 'ok') adminWatch(); else adminStop();
     renderAccount();
-  }, function(){
+  }, function(err){
     var loc = accLoad();
     if(accValid(loc) && loc.uid === u.uid){ A.info = loc; gateHide(); renderAccount(); if(loc.role === 'admin') adminWatch(); }
-    else { gateShow('offline'); if(manual) gateMsg(navigator.onLine === false ? 'Toujours pas de connexion.' : 'Le service ne répond pas. Réessayez dans un instant.', 'err'); }
+    else {
+      gateShow('offline');
+      if(err && err.code === 'permission-denied') gateMsg('Le service a refusé la vérification du compte. Prévenez l\'administrateur.', 'err');
+      else if(manual) gateMsg(navigator.onLine === false ? 'Toujours pas de connexion.' : 'Le service ne répond pas. Réessayez dans un instant.', 'err');
+    }
   }).then(function(){ A.checking = false; });
 }
 

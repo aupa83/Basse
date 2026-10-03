@@ -12,6 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="Outils basse">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png">
+<script>window.OB_FIREBASE = {"config": {"apiKey": "AIzaSyAI_UvsFF4uzra9J9bTvTNFWcugtyc6OXQ", "authDomain": "outils-basse.firebaseapp.com", "projectId": "outils-basse", "storageBucket": "outils-basse.firebasestorage.app", "messagingSenderId": "708099432440", "appId": "1:708099432440:web:77889c13501ea64f46c00d"}, "sdk": "firebase/"};</script>
 
 <meta name="author" content="aupa">
 <meta name="description" content="Outils basse, par aupa : métronome, boîte à rythmes, drone, ligne de basse et grille d'accords pour bassistes.">
@@ -3145,10 +3146,14 @@ function accCheck(manual){
     else { gateShow(d.status === 'blocked' ? 'blocked' : 'pending'); if(manual) gateMsg('Votre compte n\'est pas encore validé.'); }
     if(info.role === 'admin' && d.status === 'ok') adminWatch(); else adminStop();
     renderAccount();
-  }, function(){
+  }, function(err){
     var loc = accLoad();
     if(accValid(loc) && loc.uid === u.uid){ A.info = loc; gateHide(); renderAccount(); if(loc.role === 'admin') adminWatch(); }
-    else { gateShow('offline'); if(manual) gateMsg(navigator.onLine === false ? 'Toujours pas de connexion.' : 'Le service ne répond pas. Réessayez dans un instant.', 'err'); }
+    else {
+      gateShow('offline');
+      if(err && err.code === 'permission-denied') gateMsg('Le service a refusé la vérification du compte. Prévenez l\'administrateur.', 'err');
+      else if(manual) gateMsg(navigator.onLine === false ? 'Toujours pas de connexion.' : 'Le service ne répond pas. Réessayez dans un instant.', 'err');
+    }
   }).then(function(){ A.checking = false; });
 }
 
