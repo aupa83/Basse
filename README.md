@@ -2,7 +2,7 @@
 
 Métronome avancé, boîte à rythmes, drone ou ligne de basse et grille d'accords pour travailler la basse.
 
-Application : https://aupa83.github.io/basse/
+Application : https://aupa83.github.io/Basse/
 
 ## Installer sur le téléphone
 
