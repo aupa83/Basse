@@ -274,7 +274,7 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
 .drawer-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;padding-top:calc(14px + env(safe-area-inset-top,0px));border-bottom:1px solid var(--line)}
 .drawer-h h2{display:flex;align-items:center;gap:8px;font-family:var(--font-ui);font-size:1.25rem;font-weight:800;letter-spacing:0;text-transform:none;color:var(--fg)}
 .drawer-h h2 svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}
-.drawer-b{flex:1;overflow-y:auto;padding:16px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
+.drawer-b{flex:1;overflow-y:auto;padding:16px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
 .sounds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .sound{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:5.2rem;padding:10px;text-align:left;background:var(--raised);border:1px solid var(--line);border-radius:12px}
 .sound b{font-size:1rem}
@@ -292,6 +292,21 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
 .preset .acts .def[aria-pressed="true"]{border-color:var(--warm);color:var(--warm)}
 .preset .acts .del.confirm{background:var(--strong);border-color:var(--strong);color:#fff}
 .save-form{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid var(--line)}
+.acc{padding:0;gap:0}
+.acc summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;cursor:pointer;list-style:none;min-height:3.5rem;border-radius:14px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.acc-t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.acc-h{font-weight:800;font-size:1.02rem;color:var(--fg)}
+.acc-t small{font-size:.8rem;color:var(--muted)}
+.acc .chev{flex:none;width:20px;height:20px;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .15s}
+.acc[open] .chev{transform:rotate(90deg)}
+.acc[open] summary{border-bottom:1px solid var(--line);border-radius:14px 14px 0 0}
+.acc-b{display:flex;flex-direction:column;gap:16px;padding:16px}
+#ct-status{margin:0;font-size:.85rem;min-height:1.2em}
+#ct-status.ok{color:var(--accent)}
+#ct-status.err{color:var(--strong)}
+.contact input[type=email]{min-height:3rem;padding:0 12px;background:var(--raised);border:1px solid var(--line);border-radius:10px}
 .contact select,.contact textarea{width:100%;padding:10px 12px;background:var(--raised);border:1px solid var(--line);border-radius:10px;font:inherit;color:inherit}
 .contact select{min-height:3rem}
 .contact textarea{resize:vertical;min-height:6rem}
@@ -594,28 +609,33 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
     <button id="drawer-close" class="icon-btn" type="button" aria-label="Fermer les réglages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </div>
   <div class="drawer-b">
-    <section class="panel" aria-label="Affichage">
-      <h2 id="theme-lab">Affichage</h2>
-      <div class="seg" id="theme" role="group" aria-labelledby="theme-lab">
+    <details class="panel acc" name="reglages" id="acc-aff">
+      <summary><span class="acc-t"><span class="acc-h" id="aff-lab">Affichage</span><small>Clair, sombre ou automatique</small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
+      <div class="acc-b">
+      <div class="seg" id="theme" role="group" aria-labelledby="aff-lab">
         <button type="button" data-v="auto">Auto</button>
         <button type="button" data-v="light">Clair</button>
         <button type="button" data-v="dark">Sombre</button>
       </div>
       <p class="legend" style="font-size:.8rem">Auto suit le réglage du téléphone. Ce choix reste mémorisé sur cet appareil.</p>
-    </section>
+      </div>
+    </details>
 
-    <section class="panel" aria-label="Son">
-      <div class="row-between"><h2>Son</h2></div>
+    <details class="panel acc" name="reglages" id="acc-son">
+      <summary><span class="acc-t"><span class="acc-h" id="son-lab">Son</span><small>Test du son, clic du métronome</small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
+      <div class="acc-b">
       <button id="test-sound" class="ghost" type="button">Tester le son</button>
       <p id="audio-state" role="status" aria-live="polite"></p>
       <div class="row-between"><h3 style="margin:0">Clic du métronome</h3><span class="legend" style="font-size:.78rem">Touchez pour écouter</span></div>
       <div class="sounds" id="sounds" role="group" aria-label="Son du métronome"></div>
       <p class="legend">Une couleur = une note. Par défaut, la couleur suit la place de la case : ambre au 1er temps, turquoise aux temps, bleu aux subdivisions. Vous pouvez changer la couleur de n'importe quelle case dans les subdivisions.</p>
       <button id="mark-strong" class="switch" type="button" role="switch" aria-checked="false" style="border-radius:12px;padding:10px 12px"><i></i><span>Note différente pour les temps forts<small id="strong-help"></small></span></button>
-    </section>
+      </div>
+    </details>
 
-    <section class="panel" aria-label="Mes réglages">
-      <h2>Mes réglages</h2>
+    <details class="panel acc" name="reglages" id="acc-mes">
+      <summary><span class="acc-t"><span class="acc-h" id="mes-lab">Mes réglages</span><small>Enregistrer et charger vos réglages</small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
+      <div class="acc-b">
       <p class="legend">Le réglage marqué « Démarrage ✓ » se charge à l'ouverture. Tout est enregistré sur cet appareil. Un réglage garde le rythme, le tempo, la batterie, le drone, la grille et les options d'entraînement.</p>
       <div id="presets" class="stack" style="gap:8px"></div>
       <div class="save-form">
@@ -625,17 +645,13 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
         <button id="preset-save" class="save-btn" type="button" disabled>Enregistrer</button>
         <p id="save-msg" role="status" aria-live="polite"></p>
       </div>
-    </section>
+      </div>
+    </details>
 
-    <section class="panel" aria-label="À propos">
-      <h2>À propos</h2>
-      <p class="legend"><b>Outils basse</b>, conçu par <b>aupa</b> : métronome, boîte à rythmes, drone, ligne de basse et grille d'accords pour travailler la basse. Fonctionne sans connexion une fois installé.</p>
-      <p class="legend" style="font-size:.8rem">© 2026 aupa</p>
-    </section>
-
-    <section class="panel" aria-labelledby="h-contact">
-      <h2 id="h-contact">Contacter l'administrateur</h2>
-      <p class="legend">Une question, un problème ou une idée ? Écrivez ici : votre application de messagerie s'ouvre avec le message prêt à envoyer.</p>
+    <details class="panel acc" name="reglages" id="acc-contact">
+      <summary><span class="acc-t"><span class="acc-h" id="contact-lab">Contact</span><small>Écrire à l'administrateur</small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
+      <div class="acc-b">
+      <p class="legend">Une question, un problème ou une idée ? Écrivez votre message ici, il est envoyé à l'administrateur.</p>
       <form class="save-form contact" id="contact-form" novalidate>
         <div class="field">
           <label for="ct-subject"><b>Objet</b></label>
@@ -648,17 +664,31 @@ input[type=range]{width:100%;accent-color:var(--accent);min-height:1.9rem}
           </select>
         </div>
         <div class="field">
-          <label for="ct-name"><b>Votre nom</b> <span class="legend">(facultatif)</span></label>
+          <label for="ct-name"><b>Votre nom</b></label>
           <input id="ct-name" type="text" maxlength="60" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="ct-email"><b>Votre e-mail</b> <span class="legend" style="font-size:.8rem">pour vous répondre</span></label>
+          <input id="ct-email" type="email" maxlength="120" autocomplete="email" inputmode="email">
         </div>
         <div class="field">
           <label for="ct-msg"><b>Message</b></label>
           <textarea id="ct-msg" rows="4" maxlength="2000" placeholder="Décrivez votre demande"></textarea>
         </div>
-        <button id="ct-send" class="save-btn" type="submit" disabled>Écrire à l'administrateur</button>
-        <p class="legend" style="font-size:.78rem">Le message part vers <a id="ct-mail" href="mailto:adresse-retiree">adresse-retiree</a>. La version de l'application et le type d'appareil sont ajoutés pour aider à répondre.</p>
+        <button id="ct-send" class="save-btn" type="submit" disabled>Envoyer</button>
+        <p id="ct-status" role="status" aria-live="polite"></p>
       </form>
-    </section>
+      </div>
+    </details>
+
+    <details class="panel acc" name="reglages" id="acc-apropos">
+      <summary><span class="acc-t"><span class="acc-h" id="apropos-lab">À propos</span><small>Outils basse, par aupa</small></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary>
+      <div class="acc-b">
+      <p class="legend"><b>Outils basse</b>, conçu par <b>aupa</b> : métronome, boîte à rythmes, drone, ligne de basse et grille d'accords pour travailler la basse. Fonctionne sans connexion une fois installé.</p>
+      <p class="legend" style="font-size:.8rem">© 2026 aupa</p>
+      </div>
+    </details>
+
   </div>
 </aside>
 
@@ -2495,16 +2525,23 @@ $('#theme').addEventListener('click', function(e){
   renderTheme();
 });
 $('#drawer-close').addEventListener('click', closeDrawer);
-/* Contact : ouvre la messagerie avec un message prêt. */
-var ADMIN_MAIL = 'adresse-retiree', APP_VERSION = '2026-10-03';
-$('#ct-msg').addEventListener('input', function(){ $('#ct-send').disabled = !this.value.trim(); });
+/* Contact : l'envoi sera branché sur un service choisi par l'administrateur (aucune adresse dans le code). */
+var APP_VERSION = '2026-10-03';
+function ctStatus(txt, cls){ var el = $('#ct-status'); el.textContent = txt; el.className = cls || ''; }
+$('#ct-msg').addEventListener('input', function(){ ctStatus(''); $('#ct-send').disabled = !this.value.trim(); });
 $('#contact-form').addEventListener('submit', function(e){
   e.preventDefault();
-  var msg = $('#ct-msg').value.trim(); if(!msg) return;
-  var who = $('#ct-name').value.trim(), subj = 'Outils basse : ' + $('#ct-subject').value;
-  var installed = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
-  var body = msg + '\n\n' + (who ? who + '\n' : '') + '---\nOutils basse, version ' + APP_VERSION + (installed ? ' (installée)' : '') + '\n' + navigator.userAgent;
-  location.href = 'mailto:' + ADMIN_MAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+  var mail = $('#ct-email').value.trim();
+  if(!$('#ct-msg').value.trim()) return;
+  if(mail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){ ctStatus('Cette adresse e-mail ne semble pas valide.', 'err'); $('#ct-email').focus(); return; }
+  ctStatus('L\'envoi des messages n\'est pas encore activé. Votre message reste ici, réessayez bientôt.', 'err');
+});
+/* Réglages : une seule rubrique ouverte à la fois (pour les navigateurs qui ignorent name sur details). */
+[].forEach.call(document.querySelectorAll('.acc'), function(d){
+  d.addEventListener('toggle', function(){
+    if(!d.open) return;
+    [].forEach.call(document.querySelectorAll('.acc'), function(o){ if(o !== d && o.open) o.open = false; });
+  });
 });
 $('#backdrop').addEventListener('click', closeDrawer);
 $('#test-sound').addEventListener('click', testSound);
