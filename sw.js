@@ -1,5 +1,5 @@
 /* Garde l'application disponible hors connexion. Changer VERSION à chaque mise à jour. */
-var VERSION = 'outils-basse-v4';
+var VERSION = 'outils-basse-v5';
 var SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(VERSION).then(function(c){ return c.addAll(SHELL); }).then(function(){ return self.skipWaiting(); }));
@@ -14,7 +14,9 @@ self.addEventListener('fetch', function(e){
   var url = new URL(e.request.url);
   /* Page : le réseau d'abord pour recevoir les mises à jour, le cache si hors connexion. */
   if(e.request.mode === 'navigate'){
+    /* Si le site ne répond plus correctement (supprimé, erreur), on garde la copie enregistrée. */
     e.respondWith(fetch(e.request).then(function(r){
+      if(!r.ok) return caches.match('index.html').then(function(hit){ return hit || r; });
       var copy = r.clone(); caches.open(VERSION).then(function(c){ c.put('index.html', copy); }); return r;
     }).catch(function(){ return caches.match('index.html'); }));
     return;
